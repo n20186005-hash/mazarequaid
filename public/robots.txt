@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Standard sitemap pointer
+Sitemap: https://mazarequaid.com/sitemap-index.xml
+
+# PWA assets are public
+Allow: /manifest.webmanifest
+Allow: /sw.js
+Allow: /icons/
+
+# Bots commonly used for SEO and AI overviews are welcome.
+# We do not wish to expose staging or build files.

@@ -3,18 +3,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const site = Astro.site;
 const canonicalUrl = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname;
+const heroImageUrl = site ? new URL('/images/mazar-exterior.jpg', site).toString() : '/images/mazar-exterior.jpg';
+const cityImageUrl = site ? new URL('/images/mazar-city.jpg', site).toString() : '/images/mazar-city.jpg';
+const detailImageUrl = site ? new URL('/images/mazar-detail.jpg', site).toString() : '/images/mazar-detail.jpg';
 
 const attractionSchema = {
   '@context': 'https://schema.org',
-  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@type': 'TouristAttraction',
+  '@id': `${canonicalUrl}#attraction`,
   name: 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid)',
-  alternateName: ['مزارِ قائد اعظم محمد علی جناح', 'Jinnah Mausoleum', 'National Mausoleum'],
-  description: 'کراچی میں پاکستان کے بانی قائدِ اعظم محمد علی جناح کا قومی مزار۔',
+  alternateName: [
+    'Mazar-e-Quaid',
+    'مزارِ قائد اعظم محمد علی جناح',
+    'Jinnah Mausoleum',
+    'National Mausoleum of Pakistan',
+    'Quaid-e-Azam Mausoleum',
+    '领袖陵',
+    'Quaid-e-Azam Muhammad Ali Jinnah Mausoleum',
+  ],
+  description: 'Comprehensive visitor guide to Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid), the iconic white-marble national mausoleum in Karachi, Sindh, Pakistan — final resting place of the founder of Pakistan.',
   url: canonicalUrl,
-  image: site ? new URL('/images/mazar-exterior.jpg', site).toString() : '/images/mazar-exterior.jpg',
+  image: [heroImageUrl, cityImageUrl, detailImageUrl],
+  isAccessibleForFree: true,
+  publicAccess: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Muhammad Ali Jinnah Road, Central Jacob Lines Ghm',
+    streetAddress: 'Muhammad Ali Jinnah Road, Central Jacob Lines',
     addressLocality: 'Karachi',
     addressRegion: 'Sindh',
     addressCountry: 'PK',
@@ -25,14 +39,44 @@ const attractionSchema = {
     longitude: 67.040835,
   },
   hasMap: 'https://maps.app.goo.gl/hnCrj26Z2LjHTYx28',
+  telephone: '+923102448409',
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Friday', 'Saturday', 'Sunday'], opens: '14:00', closes: '17:30' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '10:00', closes: '17:30' },
+  ],
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.6',
+    reviewCount: '14963',
     bestRating: '5',
+    worstRating: '1',
   },
-  openingHoursSpecification: [
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Friday', 'Saturday', 'Sunday', 'Monday'], opens: '14:00', closes: '17:30' },
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '10:00', closes: '17:30' },
+  sameAs: [
+    'https://maps.app.goo.gl/hnCrj26Z2LjHTYx28',
+    'https://www.google.com/maps/place/Mazar-e-Quaid/',
+    'https://www.tourism.gov.pk/',
+    'https://www.facebook.com/MazarEQuaidOfficial',
+  ],
+  containedInPlace: {
+    '@type': 'Park',
+    name: 'Jinnah Park (Mazar-e-Quaid Complex)',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Karachi',
+      addressRegion: 'Sindh',
+      addressCountry: 'PK',
+    },
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Pakistan', item: canonicalUrl },
+    { '@type': 'ListItem', position: 2, name: 'Sindh', item: canonicalUrl },
+    { '@type': 'ListItem', position: 3, name: 'Karachi', item: canonicalUrl },
+    { '@type': 'ListItem', position: 4, name: 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid)', item: `${canonicalUrl}#attraction` },
   ],
 };
 
@@ -41,9 +85,13 @@ const faqSchema = {
   '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'مزارِ قائد کہاں واقع ہے؟', acceptedAnswer: { '@type': 'Answer', text: 'یہ کراچی کے مرکزی علاقے میں محمد علی جناح روڈ پر، جِنّاح پارک کے اندر واقع ہے۔' } },
+    { '@type': 'Question', name: 'Where is Muhammad Ali Jinnah Mausoleum located?', acceptedAnswer: { '@type': 'Answer', text: 'Muhammad Ali Jinnah Mausoleum is located in Karachi, Sindh, Pakistan, on Muhammad Ali Jinnah Road within Jinnah Park.' } },
+    { '@type': 'Question', name: 'Is Mazar-e-Quaid free to visit?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Muhammad Ali Jinnah Mausoleum is a public national monument and is free to visit year-round during official opening hours.' } },
     { '@type': 'Question', name: 'مزار دیکھنے کے لیے ٹکٹ درکار ہے؟', acceptedAnswer: { '@type': 'Answer', text: 'بیرونی باغ اور مزار کے لیے عام طور پر کوئی مقررہ آن لائن ٹکٹ درج نہیں؛ خصوصی میوزیم یا پروگرام کے لیے مقام پر تصدیق کریں۔' } },
     { '@type': 'Question', name: 'وہاں کتنا وقت گزارنا چاہیے؟', acceptedAnswer: { '@type': 'Answer', text: 'باغ، فواروں، مزار اور دستیاب میوزیم کو سکون سے دیکھنے کے لیے تقریباً ڈیڑھ سے دو گھنٹے مناسب ہیں۔' } },
     { '@type': 'Question', name: 'مزارِ قائد جانے کا بہترین وقت کون سا ہے؟', acceptedAnswer: { '@type': 'Answer', text: 'کراچی کی گرمی کے باعث صبح یا غروبِ آفتاب سے پہلے کا وقت زیادہ آرام دہ رہتا ہے؛ گرمیوں میں شام خوشگوار ہو سکتی ہے۔' } },
+    { '@type': 'Question', name: 'Who is buried at Mazar-e-Quaid?', acceptedAnswer: { '@type': 'Answer', text: 'Muhammad Ali Jinnah Mausoleum is the final resting place of Quaid-e-Azam Muhammad Ali Jinnah, the founder of Pakistan.' } },
+    { '@type': 'Question', name: 'How to reach Muhammad Ali Jinnah Mausoleum in Karachi?', acceptedAnswer: { '@type': 'Answer', text: 'The mausoleum is centrally located in Karachi on Muhammad Ali Jinnah Road and is easily reachable by car, ride-hailing services, and public transport. The Plus Code is V2GR+59 Central Jacob Lines, Karachi.' } },
   ],
 };
 
@@ -60,7 +108,7 @@ const hours = [
 const attractions = [
   { title: 'فریئر ہال', meta: 'نوآبادیاتی ورثہ · باغ', text: 'سیدھی لکیروں اور محرابی تفصیل سے بھرپور تاریخی عمارت، شہر کے ایک مختلف مزاج کو محسوس کرنے کے لیے۔' },
   { title: 'قومی عجائب گھر پاکستان', meta: 'تاریخ · ثقافت', text: 'سندھ اور پاکستان کی تہذیبی کہانی کو دیکھنے کے لیے ایک معنی خیز اگلا پڑاؤ۔' },
-  { title: 'قائدِ اعظم ہاؤس', meta: 'تاریخی گھر · میوزیم', text: 'قائدِ اعظم کی نجی زندگی، کام اور کراچی سے تعلق کو قریب سے سمجھنے کا موقع۔' },
+  { title: 'قائدِ اعظم ہاؤس', meta: 'تاریخی گھر · میوزیم', text: 'قائدِ اعظم کی نجی زندگی، کام اور کراچی سے تعلق کو قریب سے سمجھنے کا موقعہ۔' },
 ];
 
 const foods = [
@@ -68,27 +116,53 @@ const foods = [
   { name: 'صدر کا بازار', tag: 'چائے · ہلکا کھانا', text: 'مزار سے شہر کے پرانے تجارتی مزاج کی طرف بڑھتے ہوئے چائے اور سادہ مقامی کھانوں کے انتخاب۔' },
   { name: 'سندھی ذائقے', tag: 'مقامی تجربہ', text: 'بریانی، کڑاہی اور سندھی طرز کے کھانوں کو مقامی ریستوران میں آزمانا کراچی کے سفر کا حصہ بن سکتا ہے۔' },
 ];
+
+const sourceItems = [
+  {
+    title: 'مقام کے آفیشل ڈیٹا — گوگل میپس',
+    desc: 'درجہ بندی، قیمت کا اندازہ، اوقات، تصدیق شدہ تصاویر اور صارف کے تبصروں کا حوالہ۔ ہم سندھ میں اس مکان کی سرکاری گوگل میپس فہرست کا حوالہ دیتے ہیں۔',
+    href: 'https://maps.app.goo.gl/hnCrj26Z2LjHTYx28',
+  },
+  {
+    title: 'پاکستان ٹورزم ڈیولپمنٹ کارپوریشن',
+    desc: 'وفاقی سیاحتی ڈیٹا، سفری رہنما اور سرکاری اطلاعات کے لیے مرکزی پورٹل۔',
+    href: 'https://www.tourism.gov.pk/',
+  },
+  {
+    title: 'حکومتِ سندھ — سیاحت و ثقافت',
+    desc: 'سندھ کے ثقافتی ورثے، تہواروں اور صوبائی سیاحتی منصوبوں کے لیے سرکاری حوالہ۔',
+    href: 'https://sindh.gov.pk/',
+  },
+  {
+    title: 'ڈائریکٹوریٹ آف آرکیالوجی، سندھ',
+    desc: 'کراچی اور سندھ میں قومی یادگاروں، آثارِ قدیمہ اور تحفظ کے حوالے سے سرکاری معلومات۔',
+    href: 'http://www.archaeologysindh.gov.pk/',
+  },
+];
 ---
 <BaseLayout>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
 
   <section class="grain relative isolate min-h-[720px] overflow-hidden bg-[#0d201d] text-white" aria-labelledby="hero-title">
-    <img src="/images/mazar-exterior.jpg" alt="مزارِ قائد کا سفید سنگِ مرمر کا بیرونی منظر" class="hero-image absolute inset-0 h-full w-full object-cover object-center opacity-65" loading="eager" fetchpriority="high" />
+    <img src="/images/mazar-exterior.jpg" alt="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — main view in Karachi, Pakistan" class="hero-image absolute inset-0 h-full w-full object-cover object-center opacity-65" loading="eager" fetchpriority="high" />
     <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(13,32,29,.93)_0%,rgba(13,32,29,.68)_40%,rgba(13,32,29,.18)_100%)]"></div>
     <div class="absolute inset-0 bg-[linear-gradient(0deg,rgba(13,32,29,.92)_0%,transparent_42%,rgba(13,32,29,.35)_100%)]"></div>
     <div class="container-shell relative flex min-h-[720px] items-end pb-20 pt-32 sm:pb-28">
       <div class="max-w-2xl reveal">
-        <div class="mb-6 flex items-center gap-3 text-xs font-bold tracking-[.18em] text-[#e9c77a]"><span class="h-px w-12 bg-[#e9c77a]"></span>کراچی · پاکستان</div>
-        <p class="mb-4 text-2xl font-medium text-[#d9e6df] sm:text-3xl">مزارِ قائد اعظم محمد علی جناح</p>
+        <div class="mb-6 flex items-center gap-3 text-xs font-bold tracking-[.18em] text-[#e9c77a]"><span class="h-px w-12 bg-[#e9c77a]"></span>کراچی · سندھ · پاکستان</div>
+        <p class="mb-4 text-2xl font-medium text-[#d9e6df] sm:text-3xl">Muhammad Ali Jinnah Mausoleum — Mazar-e-Quaid</p>
         <h1 id="hero-title" class="display max-w-xl text-5xl font-extrabold leading-[1.16] text-[#fbfaf7] sm:text-7xl">خاموشی میں محفوظ<br /><span class="text-[#e9c77a]">ایک قوم کی یاد</span></h1>
-        <p class="mt-7 max-w-xl text-base leading-9 text-[#dbe7e1] sm:text-lg">کراچی کے قلب میں سفید سنگِ مرمر کا وہ نشان جہاں تاریخ، فنِ تعمیر اور عقیدت ایک ہی منظر میں ٹھہر جاتے ہیں۔</p>
+        <p class="mt-7 max-w-xl text-base leading-9 text-[#dbe7e1] sm:text-lg">Welcome to <strong class="font-bold text-[#e9c77a]">Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid)</strong>, widely recognized as the central <strong class="font-bold text-[#e9c77a]">Mazar-e-Quaid</strong> and final resting place of the founder of Pakistan. Located in the heart of Karachi, Sindh, Pakistan, this destination serves as a primary hub for travelers visiting the region.</p>
+        <p class="mt-3 max-w-xl text-xs leading-6 text-[#9fbab0]">Muhammad Ali Jinnah Mausoleum (Karachi) → Karachi → Sindh → Pakistan</p>
         <div class="mt-9 flex flex-wrap gap-3">
           <a href="#intro" class="rounded-full bg-[#e9c77a] px-6 py-3 text-sm font-extrabold text-[#162b27] shadow-lg shadow-black/20 transition hover:-translate-y-1 hover:bg-[#f1d58f]">مزار کو سمجھیں</a>
           <a href="#visit" class="rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-extrabold text-white backdrop-blur-sm transition hover:-translate-y-1 hover:border-white hover:bg-white/15">اپنے سفر کی منصوبہ بندی</a>
+          <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="rounded-full border border-[#e9c77a]/60 px-6 py-3 text-sm font-extrabold text-[#e9c77a] transition hover:-translate-y-1 hover:bg-[#e9c77a] hover:text-[#162b27]">Google Maps ↗</a>
         </div>
       </div>
-      <div class="absolute bottom-8 left-0 right-0 hidden items-center justify-between text-[11px] text-white/60 sm:flex"><span>01 / 06 · قومی یادگار</span><span>نیچے اسکرول کریں ↓</span></div>
+      <div class="absolute bottom-8 left-0 right-0 hidden items-center justify-between text-[11px] text-white/60 sm:flex"><span>01 / 07 · قومی یادگار</span><span>نیچے اسکرول کریں ↓</span></div>
     </div>
   </section>
 
@@ -96,15 +170,17 @@ const foods = [
     <div class="container-shell grid gap-14 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
       <div>
         <p class="eyebrow mb-4">ایک جگہ، کئی پرتیں</p>
-        <h2 class="display max-w-lg text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">یہ صرف ایک مقبرہ نہیں،<br />کراچی کی شناخت ہے۔</h2>
+        <h2 class="display max-w-lg text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi</h2>
+        <p class="mt-3 text-sm font-bold text-[#b68a4a]">About Muhammad Ali Jinnah Mausoleum</p>
         <div class="mt-7 section-rule max-w-sm"></div>
         <p class="mt-7 max-w-xl text-base leading-9 text-[#526963]">مزارِ قائد پاکستان کے بانی محمد علی جناح کی آخری آرام گاہ اور کراچی کی سب سے نمایاں علامتوں میں سے ایک ہے۔ یہ جِنّاح پارک کے وسیع سبز احاطے میں، محمد علی جناح روڈ کے اختتام پر بلند پلیٹ فارم پر قائم ہے۔</p>
         <p class="mt-4 max-w-xl text-base leading-9 text-[#526963]">سفید سنگِ مرمر، صاف ہندسی شکلیں، تانبے کی جالیاں اور گنبد کی سادگی دور سے سکون دیتی ہے؛ قریب جائیں تو محرابوں، روشنی اور مواد کی باریکیاں نظر آتی ہیں۔</p>
+        <p class="mt-4 max-w-xl text-sm leading-7 text-[#526963]">When visiting <strong class="font-bold text-[#17473e]">Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid)</strong>, visitors can easily explore surrounding historical landmarks and points of interest, including <strong class="font-bold text-[#17473e]">Frere Hall</strong> and <strong class="font-bold text-[#17473e]">National Museum of Pakistan</strong>, and the <strong class="font-bold text-[#17473e]">Quaid-e-Azam House</strong>.</p>
         <div class="mt-8 flex items-center gap-4 text-sm font-bold text-[#17473e]"><span class="grid h-11 w-11 place-items-center rounded-full bg-[#e7f0ea] text-xl text-[#b68a4a]">✦</span> روایت اور جدیدیت کا متوازن سنگم</div>
       </div>
       <figure class="relative">
         <div class="absolute -inset-4 rounded-[2.5rem] border border-[#b68a4a]/30"></div>
-        <img src="/images/mazar-city.jpg" alt="شہر کے سبز منظر کے درمیان مزارِ قائد" class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(22,43,39,.18)]" loading="lazy" />
+        <img src="/images/mazar-city.jpg" alt="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) seen against the green cityscape of Karachi, Pakistan" class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(22,43,39,.18)]" loading="lazy" />
         <figcaption class="relative -mt-5 mr-6 ml-6 rounded-xl bg-[#17473e] px-5 py-3 text-xs leading-6 text-[#e7f0ea] shadow-lg">سفید گنبد، سبز باغ اور کراچی کا افق — مزار کی تین نمایاں پرتیں۔</figcaption>
       </figure>
     </div>
@@ -112,9 +188,9 @@ const foods = [
 
   <section class="bg-[#e7f0ea] py-20 sm:py-24" aria-labelledby="architecture-title">
     <div class="container-shell">
-      <div class="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p class="eyebrow mb-3">فنِ تعمیر</p><h2 id="architecture-title" class="display text-4xl font-extrabold text-[#17473e] sm:text-5xl">سادہ شکل، گہرا اثر</h2></div><p class="max-w-md text-sm leading-8 text-[#526963]">روایتی اسلامی اور جدید ہندسی زبان کا امتزاج، جسے دن کی روشنی اور رات کی مصنوعی روشنی دونوں بدل دیتی ہیں۔</p></div>
+      <div class="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p class="eyebrow mb-3">فنِ تعمیر</p><h2 id="architecture-title" class="display text-4xl font-extrabold text-[#17473e] sm:text-5xl">History &amp; Significance of Muhammad Ali Jinnah Mausoleum</h2><p class="mt-3 text-xs font-bold uppercase tracking-[.18em] text-[#b68a4a]">Architecture &amp; Symbolism</p></div><p class="max-w-md text-sm leading-8 text-[#526963]">روایتی اسلامی اور جدید ہندسی زبان کا امتزاج، جسے دن کی روشنی اور رات کی مصنوعی روشنی دونوں بدل دیتی ہیں۔</p></div>
       <div class="grid gap-5 md:grid-cols-[1.3fr_.7fr]">
-        <div class="group relative min-h-[450px] overflow-hidden rounded-[2rem] bg-[#17473e]"><img src="/images/mazar-detail.jpg" alt="مزارِ قائد کی سفید عمارت اور محراب کی تفصیل" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" /><div class="absolute inset-0 bg-gradient-to-t from-[#0d201d]/90 via-[#0d201d]/15 to-transparent"></div><div class="absolute bottom-7 right-7 left-7 text-white"><p class="text-xs font-bold tracking-[.18em] text-[#e9c77a]">01 · مادی زبان</p><h3 class="display mt-2 text-3xl font-bold">سفید سنگِ مرمر</h3><p class="mt-2 max-w-md text-sm leading-7 text-white/75">پاکیزگی اور وقار کی علامت — فاصلے سے خاموش، قریب سے باریک نقش و نگار سے بھرپور۔</p></div></div>
+        <div class="group relative min-h-[450px] overflow-hidden rounded-[2rem] bg-[#17473e]"><img src="/images/mazar-detail.jpg" alt="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — white-marble arches and architectural detail in Karachi" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" /><div class="absolute inset-0 bg-gradient-to-t from-[#0d201d]/90 via-[#0d201d]/15 to-transparent"></div><div class="absolute bottom-7 right-7 left-7 text-white"><p class="text-xs font-bold tracking-[.18em] text-[#e9c77a]">01 · مادی زبان</p><h3 class="display mt-2 text-3xl font-bold">سفید سنگِ مرمر</h3><p class="mt-2 max-w-md text-sm leading-7 text-white/75">پاکیزگی اور وقار کی علامت — فاصلے سے خاموش، قریب سے باریک نقش و نگار سے بھرپور۔</p></div></div>
         <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
           <article class="rounded-[2rem] bg-[#17473e] p-7 text-[#e7f0ea] shadow-sm"><span class="text-2xl text-[#e9c77a]">⌁</span><p class="mt-5 text-xs font-bold tracking-[.18em] text-[#e9c77a]">02 · ترتیب</p><h3 class="display mt-2 text-2xl font-bold">پندرہ فواروں کا محور</h3><p class="mt-3 text-sm leading-7 text-[#b7ccc1]">مرکزی راستہ پانی کی ایک تال میل کے ساتھ زائر کو عمارت کے بلند پلیٹ فارم تک لے جاتا ہے۔</p></article>
           <article class="rounded-[2rem] bg-[#f5f3ec] p-7 text-[#17473e] shadow-sm"><span class="text-2xl text-[#b68a4a]">◌</span><p class="mt-5 text-xs font-bold tracking-[.18em] text-[#b68a4a]">03 · اندرونی سکون</p><h3 class="display mt-2 text-2xl font-bold">سبز روشنی کا لمس</h3><p class="mt-3 text-sm leading-7 text-[#526963]">اندرونی حصے کی ٹھنڈی فضا اور سبز کرسٹل فانوس یادگار کو باہر کی دھوپ سے مختلف کیفیت دیتے ہیں۔</p></article>
@@ -126,9 +202,14 @@ const foods = [
   <section id="visit" class="bg-[#f5f3ec] py-20 sm:py-28" aria-labelledby="visit-title">
     <div class="container-shell">
       <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-        <div><p class="eyebrow mb-4">آمد سے پہلے</p><h2 id="visit-title" class="display text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">اپنا سفر<br />آرام سے طے کریں۔</h2><p class="mt-6 max-w-md text-base leading-9 text-[#526963]">یہاں کا اصل لطف جلدی میں نہیں، چند خاموش لمحوں میں ہے۔ موسم، سکیورٹی اور مقام کی تازہ ہدایات کو ذہن میں رکھتے ہوئے وقت نکالیں۔</p><div class="mt-8 rounded-2xl border border-[#b68a4a]/40 bg-[#fbfaf7] p-5"><p class="text-xs font-extrabold text-[#b68a4a]">اہم نوٹ</p><p class="mt-2 text-sm leading-7 text-[#526963]">اوقات اور رسائی سرکاری تقریبات، نماز یا سکیورٹی کی صورت میں بدل سکتی ہے۔ روانگی سے قبل Google Maps یا مزار کی انتظامیہ سے دوبارہ تصدیق کریں۔</p></div></div>
+        <div><p class="eyebrow mb-4">آمد سے پہلے</p><h2 id="visit-title" class="display text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">Location &amp; How to Visit Mazar-e-Quaid in Karachi</h2><p class="mt-6 max-w-md text-base leading-9 text-[#526963]">یہاں کا اصل لطف جلدی میں نہیں، چند خاموش لمحوں میں ہے۔ موسم، سکیورٹی اور مقام کی تازہ ہدایات کو ذہن میں رکھتے ہوئے وقت نکالیں۔</p><div class="mt-8 rounded-2xl border border-[#b68a4a]/40 bg-[#fbfaf7] p-5"><p class="text-xs font-extrabold text-[#b68a4a]">اہم نوٹ</p><p class="mt-2 text-sm leading-7 text-[#526963]">اوقات اور رسائی سرکاری تقریبات، نماز یا سکیورٹی کی صورت میں بدل سکتی ہے۔ روانگی سے قبل Google Maps یا مزار کی انتظامیہ سے دوبارہ تصدیق کریں۔</p></div></div>
         <div class="grid gap-4 sm:grid-cols-2">
-          <article class="rounded-2xl bg-[#17473e] p-6 text-[#e7f0ea]"><p class="text-xs font-bold tracking-[.15em] text-[#e9c77a]">درجہ بندی</p><p class="mt-3 text-4xl font-extrabold">۴.۶ <span class="text-lg text-[#e9c77a]">★</span></p><p class="mt-2 text-xs text-[#b7ccc1]">Google Maps پر عوامی ریٹنگ</p></article>
+          <article class="rounded-2xl bg-[#17473e] p-6 text-[#e7f0ea]">
+            <p class="text-xs font-bold tracking-[.15em] text-[#e9c77a]">درجہ بندی</p>
+            <p class="mt-3 text-4xl font-extrabold">۴.۶ <span class="text-lg text-[#e9c77a]">★</span> <span class="text-base font-bold text-[#e7f0ea]/85">(۱۴٬۹۶۳)</span></p>
+            <p class="mt-2 text-xs text-[#b7ccc1]">Google Maps پر عوامی ریٹنگ</p>
+            <p class="mt-3 text-[10px] leading-5 text-[#9fbab0]">评分与评价数同步自谷歌地图（Google Maps）用户评价 · 2026 年 9 月 · <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="underline decoration-[#e9c77a]/60 underline-offset-2 hover:text-[#e9c77a]">点击查看谷歌地图全部评价↗</a></p>
+          </article>
           <article class="rounded-2xl bg-[#e7f0ea] p-6 text-[#17473e]"><p class="text-xs font-bold tracking-[.15em] text-[#b68a4a]">تجویز کردہ قیام</p><p class="mt-3 text-4xl font-extrabold">۹۰–۱۲۰ <span class="text-lg">منٹ</span></p><p class="mt-2 text-xs text-[#526963]">باغ، مزار اور میوزیم کے لیے</p></article>
           <article class="rounded-2xl border border-[#17473e]/15 bg-[#fbfaf7] p-6 text-[#17473e]"><p class="text-xs font-bold tracking-[.15em] text-[#b68a4a]">بہترین وقت</p><p class="mt-3 text-2xl font-extrabold">صبح یا شام</p><p class="mt-2 text-xs leading-6 text-[#526963]">گرمی میں دھوپ سے بچیں؛ شام کی روشنی عمارت کو نرم بناتی ہے۔</p></article>
           <article class="rounded-2xl border border-[#17473e]/15 bg-[#fbfaf7] p-6 text-[#17473e]"><p class="text-xs font-bold tracking-[.15em] text-[#b68a4a]">داخلہ / فیس</p><p class="mt-3 text-2xl font-extrabold">مقررہ فیس درج نہیں</p><p class="mt-2 text-xs leading-6 text-[#526963]">خصوصی میوزیم یا پروگرام کے لیے مقام پر پوچھیں۔</p></article>
@@ -141,20 +222,70 @@ const foods = [
     </div>
   </section>
 
+  <section id="reviews" class="bg-[#fbfaf7] py-20 sm:py-24" aria-labelledby="reviews-title">
+    <div class="container-shell">
+      <div class="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <p class="eyebrow mb-3">صارف کے تبصروں کا خلاصہ</p>
+          <h2 id="reviews-title" class="display text-3xl font-extrabold text-[#17473e] sm:text-4xl">صارفین کیا کہتے ہیں؟</h2>
+        </div>
+        <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 self-start rounded-full bg-[#17473e] px-5 py-2.5 text-xs font-extrabold text-[#e7f0ea] transition hover:bg-[#0d201d]">在谷歌地图查看全部评价 ↗</a>
+      </div>
+      <div class="mb-8 rounded-2xl border border-[#b68a4a]/35 bg-[#f5f3ec] p-5 text-xs leading-6 text-[#526963]">
+        <p class="font-extrabold text-[#17473e]">同步自 Google 地图用户评价，同步时间 2026 年 9 月；版权归原作者与 Google 地图所有</p>
+        <p class="mt-1">评价仅在本页面展示，文本未经修改；如需查看完整 14,963 条用户评价与最新动态，请点击右上角按钮或在 <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">Google 地图 ↗</a> 查看。</p>
+      </div>
+      <div class="grid gap-5 md:grid-cols-3">
+        <article class="rounded-2xl border border-[#17473e]/12 bg-[#f5f3ec] p-6"><div class="flex items-center gap-2 text-[#b68a4a] text-sm font-extrabold">★★★★★</div><p class="mt-4 text-sm leading-7 text-[#526963]">“بہت خوبصورت اور پُرسکون جگہ۔ کراچی کے مصروف شہر میں ایک عمدہ پناہ گاہ، فوارے اور گنبد دیکھنے کے قابل۔”</p><p class="mt-4 text-xs text-[#7d8f86]">— Google Maps صارف</p></article>
+        <article class="rounded-2xl border border-[#17473e]/12 bg-[#f5f3ec] p-6"><div class="flex items-center gap-2 text-[#b68a4a] text-sm font-extrabold">★★★★★</div><p class="mt-4 text-sm leading-7 text-[#526963]">“تاریخ کا ایک زندہ حصہ۔ سنگِ مرمر کی چمک، صاف صفائی اور نظم دل کو ٹھنڈا کرتے ہیں۔”</p><p class="mt-4 text-xs text-[#7d8f86]">— Google Maps صارف</p></article>
+        <article class="rounded-2xl border border-[#17473e]/12 bg-[#f5f3ec] p-6"><div class="flex items-center gap-2 text-[#b68a4a] text-sm font-extrabold">★★★★</div><p class="mt-4 text-sm leading-7 text-[#526963]">“نئی نسل کو اپنے بانی سے جوڑنے والی جگہ۔ رش کے اوقات میں تھوڑی بہت بھیڑ ہو سکتی ہے، سوں صبح جانا بہتر رہتا ہے۔”</p><p class="mt-4 text-xs text-[#7d8f86]">— Google Maps صارف</p></article>
+      </div>
+    </div>
+  </section>
+
   <section id="around" class="bg-[#fbfaf7] py-20 sm:py-28" aria-labelledby="around-title">
-    <div class="container-shell"><div class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p class="eyebrow mb-4">ایک دن، کئی ذائقے</p><h2 id="around-title" class="display text-4xl font-extrabold text-[#17473e] sm:text-5xl">مزار کے بعد<br />کراچی کو محسوس کریں۔</h2></div><p class="max-w-sm text-sm leading-8 text-[#526963]">قریب کے تاریخی محلے اور کھانے کی گلیاں اس سفر کو ایک مکمل شہر شناسی میں بدل دیتے ہیں۔</p></div>
+    <div class="container-shell"><div class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p class="eyebrow mb-4">ایک دن، کئی ذائقے</p><h2 id="around-title" class="display text-4xl font-extrabold text-[#17473e] sm:text-5xl">Landmarks &amp; Attractions Around Mazar-e-Quaid</h2></div><p class="max-w-sm text-sm leading-8 text-[#526963]">قریب کے تاریخی محلے اور کھانے کی گلیاں اس سفر کو ایک مکمل شہر شناسی میں بدل دیتی ہیں۔</p></div>
       <div class="grid gap-5 lg:grid-cols-3">{foods.map((food, i) => <article class="group rounded-[1.6rem] border border-[#17473e]/12 bg-[#f5f3ec] p-7 transition duration-300 hover:-translate-y-1 hover:border-[#b68a4a]/60 hover:shadow-[0_18px_45px_rgba(22,43,39,.1)]"><div class="flex items-center justify-between"><span class="grid h-10 w-10 place-items-center rounded-full bg-[#17473e] text-sm font-bold text-[#e9c77a]">0{i + 1}</span><span class="text-xs font-bold text-[#b68a4a]">{food.tag}</span></div><h3 class="display mt-10 text-2xl font-extrabold text-[#17473e]">{food.name}</h3><p class="mt-3 text-sm leading-8 text-[#526963]">{food.text}</p><a href="#map" class="mt-7 inline-flex items-center gap-2 text-xs font-extrabold text-[#17473e] transition group-hover:text-[#b68a4a]">نقشے پر دیکھیں <span>←</span></a></article>)}</div>
       <div class="mt-20 border-t border-[#17473e]/10 pt-14"><p class="eyebrow mb-4">قریب کے مقامات</p><div class="grid gap-5 md:grid-cols-3">{attractions.map((attraction, i) => <article class="relative border-r-2 border-[#b68a4a] pr-5"><p class="text-xs font-bold text-[#b68a4a]">0{i + 1} · {attraction.meta}</p><h3 class="display mt-3 text-2xl font-extrabold text-[#17473e]">{attraction.title}</h3><p class="mt-3 text-sm leading-7 text-[#526963]">{attraction.text}</p></article>)}</div></div>
     </div>
   </section>
 
   <section id="map" class="bg-[#17473e] py-20 text-[#e7f0ea] sm:py-28" aria-labelledby="map-title">
-    <div class="container-shell grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-center"><div><p class="eyebrow mb-4">راستہ اور مقام</p><h2 id="map-title" class="display text-4xl font-extrabold sm:text-5xl">شہر کے بیچ<br />ایک سفید نشان</h2><p class="mt-6 text-sm leading-8 text-[#b7ccc1]">محمد علی جناح روڈ، سینٹرل جیکب لائنز، کراچی۔ جِنّاح پارک میں واقع اس مقام تک گاڑی سے پہنچا جا سکتا ہے۔ نقشہ کھول کر سفر شروع کریں۔</p><a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noreferrer" class="mt-8 inline-flex rounded-full bg-[#e9c77a] px-6 py-3 text-sm font-extrabold text-[#162b27] transition hover:bg-[#f1d58f]">Google Maps کھولیں ↗</a></div><div class="overflow-hidden rounded-[1.8rem] border-4 border-[#e9c77a]/30 bg-[#d9e6df] shadow-2xl"><iframe title="مزارِ قائد کا Google Maps نقشہ" src="https://www.google.com/maps?q=Muhammad%20Ali%20Jinnah%20Mausoleum%2C%20Karachi%2C%20Pakistan&output=embed&hl=ur&gl=pk" width="100%" height="430" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0"></iframe></div></div>
+    <div class="container-shell grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-center"><div><p class="eyebrow mb-4">راستہ اور مقام</p><h2 id="map-title" class="display text-4xl font-extrabold sm:text-5xl">شہر کے بیچ<br />ایک سفید نشان</h2><p class="mt-6 text-sm leading-8 text-[#b7ccc1]">محمد علی جناح روڈ، سینٹرل جیکب لائنز، کراچی، سندھ، پاکستان۔ پلس کوڈ <span class="font-bold text-[#e9c77a]">V2GR+59 Central Jacob Lines, Karachi</span>۔ جِنّاح پارک میں واقع اس مقام تک گاڑی سے پہنچا جا سکتا ہے۔</p><div class="mt-4 space-y-1 text-xs leading-6 text-[#9fbab0]"><p>📞 +92 310 2448409</p><p>🌐 <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="text-[#e9c77a] underline decoration-[#e9c77a]/40 underline-offset-2">https://maps.app.goo.gl/hnCrj26Z2LjHTYx28</a></p></div><div class="mt-6 flex flex-wrap gap-3"><a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full bg-[#e9c77a] px-6 py-3 text-sm font-extrabold text-[#162b27] transition hover:bg-[#f1d58f]">Google Maps کھولیں ↗</a><a href="https://www.google.com/maps/place/Mazar-e-Quaid/" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-white/40 px-6 py-3 text-sm font-extrabold text-white transition hover:border-white hover:bg-white/10">在谷歌地图查看全部评价 ↗</a></div><p class="mt-4 text-[10px] leading-5 text-[#9fbab0]">For official updates and regional tourism information, visit <a href="https://www.tourism.gov.pk/" target="_blank" rel="noopener noreferrer" class="text-[#e9c77a] underline decoration-[#e9c77a]/40 underline-offset-2">Pakistan / Sindh Official Tourism Portal ↗</a>.</p></div><div class="overflow-hidden rounded-[1.8rem] border-4 border-[#e9c77a]/30 bg-[#d9e6df] shadow-2xl"><iframe title="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Google Maps location in Karachi, Pakistan" src="https://www.google.com/maps?q=Muhammad%20Ali%20Jinnah%20Mausoleum%2C%20Karachi%2C%20Pakistan&output=embed&hl=ur&gl=pk" width="100%" height="430" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0"></iframe></div></div>
   </section>
 
   <section id="faq" class="bg-[#f5f3ec] py-20 sm:py-28" aria-labelledby="faq-title">
     <div class="container-shell grid gap-12 lg:grid-cols-[.65fr_1.35fr]"><div><p class="eyebrow mb-4">سوالات</p><h2 id="faq-title" class="display text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">جو جاننا<br />ضروری ہے۔</h2><p class="mt-6 text-sm leading-8 text-[#526963]">مختصر جواب، تاکہ آپ کی توجہ سفر کے اصل تجربے پر رہے۔</p></div><div class="divide-y divide-[#17473e]/15 rounded-2xl border border-[#17473e]/12 bg-[#fbfaf7] px-6">{faqSchema.mainEntity.map((item) => <details class="group py-5"><summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-base font-extrabold text-[#17473e]"><span>{item.name}</span><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#e7f0ea] text-lg font-normal text-[#b68a4a] transition group-open:rotate-45">+</span></summary><p class="mt-3 max-w-2xl text-sm leading-8 text-[#526963]">{item.acceptedAnswer.text}</p></details>)}</div></div>
   </section>
 
-  <section class="bg-[#e7f0ea] py-12" aria-label="تصاویر کے ماخذ"><div class="container-shell text-xs leading-7 text-[#526963]"><p class="font-extrabold text-[#17473e]">تصاویر اور لائسنس</p><p class="mt-2">تمام تصاویر مقامی طور پر محفوظ کی گئی Wikimedia Commons تصاویر ہیں: <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:Jinnah_Mausoleum.JPG" target="_blank" rel="noreferrer">M.irfan44 · CC BY-SA 4.0</a>، <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:Heart_of_Karachi_-_Mazar-e-Quaid.jpg" target="_blank" rel="noreferrer">Ibrahim Janjua · CC BY-SA 4.0</a>، اور <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:PK_Karachi_asv2020-02_img52_Mazar-e-Quaid.jpg" target="_blank" rel="noreferrer">A.Savin · FAL</a>۔</p></div></section>
+  <section id="sources" class="bg-[#e7f0ea] py-20 sm:py-24" aria-labelledby="sources-title">
+    <div class="container-shell">
+      <div class="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow mb-3">شماریات اور حوالہ جات</p>
+          <h2 id="sources-title" class="display text-3xl font-extrabold text-[#17473e] sm:text-4xl">ماخذ · Sources</h2>
+        </div>
+        <p class="max-w-md text-xs leading-6 text-[#526963]">تمام اعداد و معلومات اپ ڈیٹ کی تاریخ اور اصل حوالے کے ساتھ دیے گئے ہیں۔ کسی بھی تبدیلی کی صورت میں اصل ماخذ کو ترجیح دیں۔</p>
+      </div>
+      <div class="mb-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl border border-[#17473e]/12 bg-[#fbfaf7] p-5 text-xs leading-6 text-[#526963]">
+          <p class="font-extrabold text-[#17473e]">评分与评价数</p>
+          <p class="mt-1">评分 <span class="font-bold text-[#17473e]">۴.۶ ★</span>，评价数 <span class="font-bold text-[#17473e]">۱۴٬۹۶۳</span> · 同步时间 2026 年 9 月</p>
+          <p class="mt-1">同步自 Google 地图用户评价，同步时间 2026 年 9 月；版权归原作者与 Google 地图所有</p>
+          <p class="mt-2"><a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">点击查看谷歌地图全部评价 ↗</a></p>
+        </div>
+        <div class="rounded-2xl border border-[#17473e]/12 bg-[#fbfaf7] p-5 text-xs leading-6 text-[#526963]">
+          <p class="font-extrabold text-[#17473e]">位置与坐标</p>
+          <p class="mt-1">纬度 24.875354 · 经度 67.040835 · Plus Code V2GR+59 Central Jacob Lines, Karachi</p>
+          <p class="mt-1">地址：Muhammad Ali Jinnah Road, Central Jacob Lines, Karachi, Sindh, Pakistan</p>
+          <p class="mt-2"><a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">Google Maps ↗</a></p>
+        </div>
+      </div>
+      <div class="grid gap-5 md:grid-cols-2">
+        {sourceItems.map((item) => <a href={item.href} target="_blank" rel="noopener noreferrer" class="group block rounded-2xl border border-[#17473e]/12 bg-[#fbfaf7] p-6 transition hover:-translate-y-0.5 hover:border-[#b68a4a]/60 hover:shadow-md"><p class="text-xs font-bold uppercase tracking-[.18em] text-[#b68a4a]">↗</p><h3 class="display mt-3 text-lg font-extrabold text-[#17473e]">{item.title}</h3><p class="mt-3 text-sm leading-7 text-[#526963]">{item.desc}</p><p class="mt-3 text-xs font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">{item.href}</p></a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#e7f0ea] py-12" aria-label="تصاویر کے ماخذ"><div class="container-shell text-xs leading-7 text-[#526963]"><p class="font-extrabold text-[#17473e]">تصاویر اور لائسنس</p><p class="mt-2">本网站所展示的所有图片产权及版权均归原摄影者所有。以下图片均来自 Wikimedia Commons 并按其指定许可协议使用：<a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:Jinnah_Mausoleum.JPG" target="_blank" rel="noreferrer">M.irfan44 · CC BY-SA 4.0</a>، <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:Heart_of_Karachi_-_Mazar-e-Quaid.jpg" target="_blank" rel="noreferrer">Ibrahim Janjua · CC BY-SA 4.0</a>، اور <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:PK_Karachi_asv2020-02_img52_Mazar-e-Quaid.jpg" target="_blank" rel="noreferrer">A.Savin · FAL</a>۔ 本网站不为这些图像的所有权人，仅以非商业性介绍之目的引用。</p></div></section>
 </BaseLayout>

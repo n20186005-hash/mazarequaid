@@ -1,0 +1,73 @@
+{
+  "name": "Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Visitor Guide",
+  "short_name": "Mazar-e-Quaid",
+  "lang": "ur",
+  "dir": "rtl",
+  "description": "Comprehensive visitor guide to Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) in Karachi, Sindh, Pakistan. Map, opening hours, nearby landmarks, and travel tips.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbfaf7",
+  "theme_color": "#17473e",
+  "categories": ["travel", "education", "lifestyle"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Map",
+      "short_name": "Map",
+      "url": "/#map",
+      "description": "Open the Google Maps location of Mazar-e-Quaid"
+    },
+    {
+      "name": "Reviews",
+      "short_name": "Reviews",
+      "url": "/#reviews",
+      "description": "See Google Maps reviews (synced September 2026)"
+    },
+    {
+      "name": "FAQ",
+      "short_name": "FAQ",
+      "url": "/#faq",
+      "description": "Common visitor questions about the mausoleum"
+    }
+  ]
+}

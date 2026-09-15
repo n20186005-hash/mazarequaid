@@ -6,51 +6,85 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
+  canonical?: string;
 }
 
 const {
-  title = 'مزارِ قائد کراچی — خاموشی، وقار، تاریخ',
-  description = 'کراچی کے قلب میں قائدِ اعظم محمد علی جناح کے مزار کے لیے ایک باوقار، مقامی زبان کا وزٹر گائیڈ۔',
+  title = 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Visitor Guide | مزارِ قائد',
+  description = 'Discover Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid), the iconic white-marble national mausoleum in Karachi, Sindh, Pakistan. View location map, opening hours, nearby landmarks, and travel tips.',
   image = '/images/mazar-exterior.jpg',
   noindex = false,
+  canonical,
 } = Astro.props;
 
 const site = Astro.site;
-const canonicalUrl = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname;
+const canonicalUrl = canonical
+  ?? (site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname);
 const imageUrl = site ? new URL(image, site).toString() : image;
+const ogTitle = 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Travel Guide';
+
 const navItems = [
   ['تعارف', '#intro'],
   ['دیکھنے کا وقت', '#visit'],
   ['اردگرد', '#around'],
   ['نقشہ', '#map'],
   ['سوالات', '#faq'],
+  ['ماخذ', '#sources'],
 ];
 ---
 <!doctype html>
 <html lang="ur" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#17473e" />
+    <meta name="color-scheme" content="light" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="keywords" content="Muhammad Ali Jinnah Mausoleum, Mazar-e-Quaid, Jinnah Mausoleum Karachi, مزارِ قائد, National Mausoleum Pakistan, Karachi landmarks, Sindh tourism, Jinnah Park, 领袖陵, 卡拉奇景点" />
+    <meta name="author" content="Mazar-e-Quaid Visitor Guide" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+    <meta name="rating" content="general" />
+    <meta name="geo.region" content="PK-SD" />
+    <meta name="geo.placename" content="Karachi, Sindh, Pakistan" />
+    <meta name="geo.position" content="24.875354;67.040835" />
+    <meta name="ICBM" content="24.875354, 67.040835" />
+    <meta name="language" content="Urdu, English, Chinese" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
     <link rel="apple-touch-icon" href="/favicon-180.png" sizes="180x180" />
+    <link rel="mask-icon" href="/favicon.svg" color="#17473e" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="ur" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="application-name" content="Mazar-e-Quaid Guide" />
+    <meta name="apple-mobile-web-app-title" content="Mazar-e-Quaid" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
     <meta property="og:locale" content="ur_PK" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="مزارِ قائد" />
+    <meta property="og:site_name" content="مزارِ قائد — Mazar-e-Quaid Guide" />
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:alt" content="مزارِ قائد کا سفید سنگِ مرمر کا گنبد" />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — main view in Karachi, Pakistan" />
+    <meta property="og:updated_time" content="2026-09-15T00:00:00Z" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) in Karachi" />
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
     <script is:inline define:vars={{ canonicalUrl }}>
       window.dataLayer = window.dataLayer || [];
@@ -88,10 +122,18 @@ const navItems = [
             <a class="transition hover:text-white" href="#visit">آمد و رفت</a>
             <a class="transition hover:text-white" href="#map">نقشہ دیکھیں</a>
             <a class="transition hover:text-white" href="#faq">سوالات</a>
+            <a class="transition hover:text-white" href="#sources">ماخذ</a>
           </div>
         </div>
       </div>
       <div class="border-t border-white/10 py-5 text-center text-[11px] text-[#8ca99b]">© مزارِ قائد گائیڈ · تصاویر کے ماخذ اور لائسنس نیچے درج ہیں</div>
     </footer>
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>
