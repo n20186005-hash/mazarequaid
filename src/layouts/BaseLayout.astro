@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'مزارِ قائد کراچی — خاموشی، وقار، تاریخ',
+  description = 'کراچی کے قلب میں قائدِ اعظم محمد علی جناح کے مزار کے لیے ایک باوقار، مقامی زبان کا وزٹر گائیڈ۔',
+  image = '/images/mazar-exterior.jpg',
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site;
+const canonicalUrl = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname;
+const imageUrl = site ? new URL(image, site).toString() : image;
+const navItems = [
+  ['تعارف', '#intro'],
+  ['دیکھنے کا وقت', '#visit'],
+  ['اردگرد', '#around'],
+  ['نقشہ', '#map'],
+  ['سوالات', '#faq'],
+];
+---
+<!doctype html>
+<html lang="ur" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17473e" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" sizes="180x180" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:locale" content="ur_PK" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="مزارِ قائد" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content="مزارِ قائد کا سفید سنگِ مرمر کا گنبد" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline define:vars={{ canonicalUrl }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HXM22WWPKP', { page_location: canonicalUrl });
+    </script>
+  </head>
+  <body>
+    <header class="absolute inset-x-0 top-0 z-20 text-white">
+      <div class="container-shell flex items-center justify-between gap-6 py-5">
+        <a href="#top" class="group flex items-center gap-3" aria-label="مزارِ قائد، آغاز صفحہ">
+          <img src="/logo.svg" width="180" height="46" alt="مزارِ قائد" class="h-auto w-[150px] transition duration-300 group-hover:opacity-80 sm:w-[180px]" />
+        </a>
+        <nav aria-label="مرکزی نیویگیشن" class="hidden items-center gap-6 text-[13px] font-bold lg:flex">
+          {navItems.map(([label, href]) => <a class="opacity-85 transition hover:text-[#e9c77a] hover:opacity-100" href={href}>{label}</a>)}
+        </nav>
+        <a href="#visit" class="rounded-full border border-white/45 px-4 py-2 text-xs font-bold transition hover:border-[#e9c77a] hover:bg-[#e9c77a] hover:text-[#162b27]">اپنے سفر کی تیاری</a>
+      </div>
+    </header>
+    <main id="top">
+      <slot />
+    </main>
+    <footer class="border-t border-white/10 bg-[#0d201d] text-[#e7f0ea]">
+      <div class="container-shell grid gap-10 py-14 md:grid-cols-[1fr_auto] md:items-start">
+        <div>
+          <img src="/logo.svg" width="180" height="46" alt="مزارِ قائد" class="mb-5 h-auto w-[180px]" />
+          <p class="max-w-xl text-sm leading-8 text-[#c5d5cc]">مزارِ قائد کراچی کی ایک باوقار سیر، تاریخ اور خاموشی کو سمجھنے کے لیے ایک غیر سرکاری وزٹر گائیڈ ہے۔</p>
+          <p class="mt-6 max-w-xl text-xs leading-7 text-[#8ca99b]">یہ ویب سائٹ غیر سرکاری ہے۔ اوقات، سکیورٹی ہدایات، داخلہ اور سہولیات میں تبدیلی ممکن ہے؛ روانگی سے پہلے مقام کی تازہ معلومات ضرور دیکھیں۔</p>
+        </div>
+        <div class="text-sm text-[#c5d5cc] md:text-left">
+          <p class="mb-3 font-bold text-[#e9c77a]">فوری روابط</p>
+          <div class="flex flex-col gap-2">
+            <a class="transition hover:text-white" href="#intro">مزار کا تعارف</a>
+            <a class="transition hover:text-white" href="#visit">آمد و رفت</a>
+            <a class="transition hover:text-white" href="#map">نقشہ دیکھیں</a>
+            <a class="transition hover:text-white" href="#faq">سوالات</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 py-5 text-center text-[11px] text-[#8ca99b]">© مزارِ قائد گائیڈ · تصاویر کے ماخذ اور لائسنس نیچے درج ہیں</div>
+    </footer>
+  </body>
+</html>

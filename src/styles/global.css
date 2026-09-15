@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #162b27;
+  --deep: #0d201d;
+  --green: #17473e;
+  --green-soft: #e7f0ea;
+  --marble: #f5f3ec;
+  --paper: #fbfaf7;
+  --sand: #e9dfc9;
+  --copper: #b68a4a;
+  --mist: #d9e6df;
+  --line: rgba(22, 43, 39, 0.16);
+  --shadow: 0 24px 70px rgba(22, 43, 39, 0.12);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@theme inline {
+  --font-sans: "Noto Naskh Arabic", "Noto Nastaliq Urdu", "Segoe UI", Tahoma, sans-serif;
+  --font-display: "Noto Naskh Arabic", "Noto Nastaliq Urdu", Georgia, serif;
+  --color-ink: var(--ink);
+  --color-deep: var(--deep);
+  --color-green: var(--green);
+  --color-marble: var(--marble);
+  --color-paper: var(--paper);
+  --color-sand: var(--sand);
+  --color-copper: var(--copper);
+  --color-mist: var(--mist);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--paper); }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Noto Naskh Arabic", "Noto Nastaliq Urdu", "Segoe UI", Tahoma, sans-serif;
+  line-height: 1.85;
+}
+::selection { background: var(--copper); color: #fff; }
+a { color: inherit; text-decoration: none; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.container-shell { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+.section-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--copper), transparent); opacity: .7; }
+.eyebrow { color: var(--copper); font-size: .74rem; letter-spacing: .18em; font-weight: 800; }
+.display { font-family: var(--font-display); letter-spacing: -.035em; }
+
+.grain { position: relative; }
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"); mix-blend-mode: multiply;
+}
+
+.hero-image { animation: slow-zoom 16s var(--ease-out) both; }
+@keyframes slow-zoom { from { transform: scale(1.06); } to { transform: scale(1); } }
+.reveal { animation: rise-in .8s var(--ease-out) both; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media (max-width: 640px) {
+  .container-shell { width: min(100% - 28px, 1180px); }
+}

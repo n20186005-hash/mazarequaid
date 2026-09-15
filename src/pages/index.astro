@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const site = Astro.site;
+const canonicalUrl = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname;
+
+const attractionSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid)',
+  alternateName: ['مزارِ قائد اعظم محمد علی جناح', 'Jinnah Mausoleum', 'National Mausoleum'],
+  description: 'کراچی میں پاکستان کے بانی قائدِ اعظم محمد علی جناح کا قومی مزار۔',
+  url: canonicalUrl,
+  image: site ? new URL('/images/mazar-exterior.jpg', site).toString() : '/images/mazar-exterior.jpg',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Muhammad Ali Jinnah Road, Central Jacob Lines Ghm',
+    addressLocality: 'Karachi',
+    addressRegion: 'Sindh',
+    addressCountry: 'PK',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 24.875354,
+    longitude: 67.040835,
+  },
+  hasMap: 'https://maps.app.goo.gl/hnCrj26Z2LjHTYx28',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.6',
+    bestRating: '5',
+  },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Friday', 'Saturday', 'Sunday', 'Monday'], opens: '14:00', closes: '17:30' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '10:00', closes: '17:30' },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'مزارِ قائد کہاں واقع ہے؟', acceptedAnswer: { '@type': 'Answer', text: 'یہ کراچی کے مرکزی علاقے میں محمد علی جناح روڈ پر، جِنّاح پارک کے اندر واقع ہے۔' } },
+    { '@type': 'Question', name: 'مزار دیکھنے کے لیے ٹکٹ درکار ہے؟', acceptedAnswer: { '@type': 'Answer', text: 'بیرونی باغ اور مزار کے لیے عام طور پر کوئی مقررہ آن لائن ٹکٹ درج نہیں؛ خصوصی میوزیم یا پروگرام کے لیے مقام پر تصدیق کریں۔' } },
+    { '@type': 'Question', name: 'وہاں کتنا وقت گزارنا چاہیے؟', acceptedAnswer: { '@type': 'Answer', text: 'باغ، فواروں، مزار اور دستیاب میوزیم کو سکون سے دیکھنے کے لیے تقریباً ڈیڑھ سے دو گھنٹے مناسب ہیں۔' } },
+    { '@type': 'Question', name: 'مزارِ قائد جانے کا بہترین وقت کون سا ہے؟', acceptedAnswer: { '@type': 'Answer', text: 'کراچی کی گرمی کے باعث صبح یا غروبِ آفتاب سے پہلے کا وقت زیادہ آرام دہ رہتا ہے؛ گرمیوں میں شام خوشگوار ہو سکتی ہے۔' } },
+  ],
+};
+
+const hours = [
+  ['پیر', 'دوپہر ۲ تا شام ۵:۳۰'],
+  ['منگل', 'دوپہر ۲ تا شام ۵:۳۰'],
+  ['بدھ', 'صبح ۱۰ تا شام ۵:۳۰'],
+  ['جمعرات', 'صبح ۱۰ تا شام ۵:۳۰'],
+  ['جمعہ', 'دوپہر ۲ تا شام ۵:۳۰'],
+  ['ہفتہ', 'دوپہر ۲ تا شام ۵:۳۰'],
+  ['اتوار', 'دوپہر ۲ تا شام ۵:۳۰'],
+];
+
+const attractions = [
+  { title: 'فریئر ہال', meta: 'نوآبادیاتی ورثہ · باغ', text: 'سیدھی لکیروں اور محرابی تفصیل سے بھرپور تاریخی عمارت، شہر کے ایک مختلف مزاج کو محسوس کرنے کے لیے۔' },
+  { title: 'قومی عجائب گھر پاکستان', meta: 'تاریخ · ثقافت', text: 'سندھ اور پاکستان کی تہذیبی کہانی کو دیکھنے کے لیے ایک معنی خیز اگلا پڑاؤ۔' },
+  { title: 'قائدِ اعظم ہاؤس', meta: 'تاریخی گھر · میوزیم', text: 'قائدِ اعظم کی نجی زندگی، کام اور کراچی سے تعلق کو قریب سے سمجھنے کا موقع۔' },
+];
+
+const foods = [
+  { name: 'برنس روڈ', tag: 'روایتی کراچی ذائقے', text: 'سجی، نہاری، حلیم، کباب اور میٹھے کے لیے شہر کی مشہور فوڈ اسٹریٹ؛ شام کے وقت زیادہ زندہ دل۔' },
+  { name: 'صدر کا بازار', tag: 'چائے · ہلکا کھانا', text: 'مزار سے شہر کے پرانے تجارتی مزاج کی طرف بڑھتے ہوئے چائے اور سادہ مقامی کھانوں کے انتخاب۔' },
+  { name: 'سندھی ذائقے', tag: 'مقامی تجربہ', text: 'بریانی، کڑاہی اور سندھی طرز کے کھانوں کو مقامی ریستوران میں آزمانا کراچی کے سفر کا حصہ بن سکتا ہے۔' },
+];
+---
+<BaseLayout>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+  <section class="grain relative isolate min-h-[720px] overflow-hidden bg-[#0d201d] text-white" aria-labelledby="hero-title">
+    <img src="/images/mazar-exterior.jpg" alt="مزارِ قائد کا سفید سنگِ مرمر کا بیرونی منظر" class="hero-image absolute inset-0 h-full w-full object-cover object-center opacity-65" loading="eager" fetchpriority="high" />
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(13,32,29,.93)_0%,rgba(13,32,29,.68)_40%,rgba(13,32,29,.18)_100%)]"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(0deg,rgba(13,32,29,.92)_0%,transparent_42%,rgba(13,32,29,.35)_100%)]"></div>
+    <div class="container-shell relative flex min-h-[720px] items-end pb-20 pt-32 sm:pb-28">
+      <div class="max-w-2xl reveal">
+        <div class="mb-6 flex items-center gap-3 text-xs font-bold tracking-[.18em] text-[#e9c77a]"><span class="h-px w-12 bg-[#e9c77a]"></span>کراچی · پاکستان</div>
+        <p class="mb-4 text-2xl font-medium text-[#d9e6df] sm:text-3xl">مزارِ قائد اعظم محمد علی جناح</p>
+        <h1 id="hero-title" class="display max-w-xl text-5xl font-extrabold leading-[1.16] text-[#fbfaf7] sm:text-7xl">خاموشی میں محفوظ<br /><span class="text-[#e9c77a]">ایک قوم کی یاد</span></h1>
+        <p class="mt-7 max-w-xl text-base leading-9 text-[#dbe7e1] sm:text-lg">کراچی کے قلب میں سفید سنگِ مرمر کا وہ نشان جہاں تاریخ، فنِ تعمیر اور عقیدت ایک ہی منظر میں ٹھہر جاتے ہیں۔</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href="#intro" class="rounded-full bg-[#e9c77a] px-6 py-3 text-sm font-extrabold text-[#162b27] shadow-lg shadow-black/20 transition hover:-translate-y-1 hover:bg-[#f1d58f]">مزار کو سمجھیں</a>
+          <a href="#visit" class="rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-extrabold text-white backdrop-blur-sm transition hover:-translate-y-1 hover:border-white hover:bg-white/15">اپنے سفر کی منصوبہ بندی</a>
+        </div>
+      </div>
+      <div class="absolute bottom-8 left-0 right-0 hidden items-center justify-between text-[11px] text-white/60 sm:flex"><span>01 / 06 · قومی یادگار</span><span>نیچے اسکرول کریں ↓</span></div>
+    </div>
+  </section>
+
+  <section id="intro" class="bg-[#fbfaf7] py-20 sm:py-28">
+    <div class="container-shell grid gap-14 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+      <div>
+        <p class="eyebrow mb-4">ایک جگہ، کئی پرتیں</p>
+        <h2 class="display max-w-lg text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">یہ صرف ایک مقبرہ نہیں،<br />کراچی کی شناخت ہے۔</h2>
+        <div class="mt-7 section-rule max-w-sm"></div>
+        <p class="mt-7 max-w-xl text-base leading-9 text-[#526963]">مزارِ قائد پاکستان کے بانی محمد علی جناح کی آخری آرام گاہ اور کراچی کی سب سے نمایاں علامتوں میں سے ایک ہے۔ یہ جِنّاح پارک کے وسیع سبز احاطے میں، محمد علی جناح روڈ کے اختتام پر بلند پلیٹ فارم پر قائم ہے۔</p>
+        <p class="mt-4 max-w-xl text-base leading-9 text-[#526963]">سفید سنگِ مرمر، صاف ہندسی شکلیں، تانبے کی جالیاں اور گنبد کی سادگی دور سے سکون دیتی ہے؛ قریب جائیں تو محرابوں، روشنی اور مواد کی باریکیاں نظر آتی ہیں۔</p>
+        <div class="mt-8 flex items-center gap-4 text-sm font-bold text-[#17473e]"><span class="grid h-11 w-11 place-items-center rounded-full bg-[#e7f0ea] text-xl text-[#b68a4a]">✦</span> روایت اور جدیدیت کا متوازن سنگم</div>
+      </div>
+      <figure class="relative">
+        <div class="absolute -inset-4 rounded-[2.5rem] border border-[#b68a4a]/30"></div>
+        <img src="/images/mazar-city.jpg" alt="شہر کے سبز منظر کے درمیان مزارِ قائد" class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(22,43,39,.18)]" loading="lazy" />
+        <figcaption class="relative -mt-5 mr-6 ml-6 rounded-xl bg-[#17473e] px-5 py-3 text-xs leading-6 text-[#e7f0ea] shadow-lg">سفید گنبد، سبز باغ اور کراچی کا افق — مزار کی تین نمایاں پرتیں۔</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bg-[#e7f0ea] py-20 sm:py-24" aria-labelledby="architecture-title">
+    <div class="container-shell">
+      <div class="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p class="eyebrow mb-3">فنِ تعمیر</p><h2 id="architecture-title" class="display text-4xl font-extrabold text-[#17473e] sm:text-5xl">سادہ شکل، گہرا اثر</h2></div><p class="max-w-md text-sm leading-8 text-[#526963]">روایتی اسلامی اور جدید ہندسی زبان کا امتزاج، جسے دن کی روشنی اور رات کی مصنوعی روشنی دونوں بدل دیتی ہیں۔</p></div>
+      <div class="grid gap-5 md:grid-cols-[1.3fr_.7fr]">
+        <div class="group relative min-h-[450px] overflow-hidden rounded-[2rem] bg-[#17473e]"><img src="/images/mazar-detail.jpg" alt="مزارِ قائد کی سفید عمارت اور محراب کی تفصیل" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" /><div class="absolute inset-0 bg-gradient-to-t from-[#0d201d]/90 via-[#0d201d]/15 to-transparent"></div><div class="absolute bottom-7 right-7 left-7 text-white"><p class="text-xs font-bold tracking-[.18em] text-[#e9c77a]">01 · مادی زبان</p><h3 class="display mt-2 text-3xl font-bold">سفید سنگِ مرمر</h3><p class="mt-2 max-w-md text-sm leading-7 text-white/75">پاکیزگی اور وقار کی علامت — فاصلے سے خاموش، قریب سے باریک نقش و نگار سے بھرپور۔</p></div></div>
+        <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
+          <article class="rounded-[2rem] bg-[#17473e] p-7 text-[#e7f0ea] shadow-sm"><span class="text-2xl text-[#e9c77a]">⌁</span><p class="mt-5 text-xs font-bold tracking-[.18em] text-[#e9c77a]">02 · ترتیب</p><h3 class="display mt-2 text-2xl font-bold">پندرہ فواروں کا محور</h3><p class="mt-3 text-sm leading-7 text-[#b7ccc1]">مرکزی راستہ پانی کی ایک تال میل کے ساتھ زائر کو عمارت کے بلند پلیٹ فارم تک لے جاتا ہے۔</p></article>
+          <article class="rounded-[2rem] bg-[#f5f3ec] p-7 text-[#17473e] shadow-sm"><span class="text-2xl text-[#b68a4a]">◌</span><p class="mt-5 text-xs font-bold tracking-[.18em] text-[#b68a4a]">03 · اندرونی سکون</p><h3 class="display mt-2 text-2xl font-bold">سبز روشنی کا لمس</h3><p class="mt-3 text-sm leading-7 text-[#526963]">اندرونی حصے کی ٹھنڈی فضا اور سبز کرسٹل فانوس یادگار کو باہر کی دھوپ سے مختلف کیفیت دیتے ہیں۔</p></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="bg-[#f5f3ec] py-20 sm:py-28" aria-labelledby="visit-title">
+    <div class="container-shell">
+      <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+        <div><p class="eyebrow mb-4">آمد سے پہلے</p><h2 id="visit-title" class="display text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">اپنا سفر<br />آرام سے طے کریں۔</h2><p class="mt-6 max-w-md text-base leading-9 text-[#526963]">یہاں کا اصل لطف جلدی میں نہیں، چند خاموش لمحوں میں ہے۔ موسم، سکیورٹی اور مقام کی تازہ ہدایات کو ذہن میں رکھتے ہوئے وقت نکالیں۔</p><div class="mt-8 rounded-2xl border border-[#b68a4a]/40 bg-[#fbfaf7] p-5"><p class="text-xs font-extrabold text-[#b68a4a]">اہم نوٹ</p><p class="mt-2 text-sm leading-7 text-[#526963]">اوقات اور رسائی سرکاری تقریبات، نماز یا سکیورٹی کی صورت میں بدل سکتی ہے۔ روانگی سے قبل Google Maps یا مزار کی انتظامیہ سے دوبارہ تصدیق کریں۔</p></div></div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article class="rounded-2xl bg-[#17473e] p-6 text-[#e7f0ea]"><p class="text-xs font-bold tracking-[.15em] text-[#e9c77a]">درجہ بندی</p><p class="mt-3 text-4xl font-extrabold">۴.۶ <span class="text-lg text-[#e9c77a]">★</span></p><p class="mt-2 text-xs text-[#b7ccc1]">Google Maps پر عوامی ریٹنگ</p></article>
+          <article class="rounded-2xl bg-[#e7f0ea] p-6 text-[#17473e]"><p class="text-xs font-bold tracking-[.15em] text-[#b68a4a]">تجویز کردہ قیام</p><p class="mt-3 text-4xl font-extrabold">۹۰–۱۲۰ <span class="text-lg">منٹ</span></p><p class="mt-2 text-xs text-[#526963]">باغ، مزار اور میوزیم کے لیے</p></article>
+          <article class="rounded-2xl border border-[#17473e]/15 bg-[#fbfaf7] p-6 text-[#17473e]"><p class="text-xs font-bold tracking-[.15em] text-[#b68a4a]">بہترین وقت</p><p class="mt-3 text-2xl font-extrabold">صبح یا شام</p><p class="mt-2 text-xs leading-6 text-[#526963]">گرمی میں دھوپ سے بچیں؛ شام کی روشنی عمارت کو نرم بناتی ہے۔</p></article>
+          <article class="rounded-2xl border border-[#17473e]/15 bg-[#fbfaf7] p-6 text-[#17473e]"><p class="text-xs font-bold tracking-[.15em] text-[#b68a4a]">داخلہ / فیس</p><p class="mt-3 text-2xl font-extrabold">مقررہ فیس درج نہیں</p><p class="mt-2 text-xs leading-6 text-[#526963]">خصوصی میوزیم یا پروگرام کے لیے مقام پر پوچھیں۔</p></article>
+        </div>
+      </div>
+      <div class="mt-16 grid gap-10 border-t border-[#17473e]/15 pt-12 lg:grid-cols-2">
+        <div><div class="mb-6 flex items-end justify-between"><h3 class="display text-2xl font-extrabold text-[#17473e]">عام اوقاتِ زیارت</h3><span class="text-xs text-[#526963]">مقامی وقت</span></div><div class="overflow-hidden rounded-2xl border border-[#17473e]/10 bg-[#fbfaf7]"><div class="grid grid-cols-[.7fr_1fr] border-b border-[#17473e]/10 bg-[#e7f0ea] px-5 py-3 text-xs font-extrabold text-[#17473e]"><span>دن</span><span>وقت</span></div>{hours.map(([day, time], i) => <div class:list={["grid grid-cols-[.7fr_1fr] px-5 py-2.5 text-sm", i % 2 === 1 && 'bg-[#f5f3ec]']}><span class="font-bold text-[#17473e]">{day}</span><span class="text-[#526963]">{time}</span></div>)}</div></div>
+        <div><h3 class="display mb-6 text-2xl font-extrabold text-[#17473e]">پارکنگ اور رسائی</h3><div class="space-y-4 text-sm leading-8 text-[#526963]"><p><strong class="text-[#17473e]">گاڑی:</strong> مزار جِنّاح پارک کے وسیع احاطے اور مرکزی سڑکوں سے قابلِ رسائی ہے۔ رش کے اوقات میں داخلی راستے اور پارکنگ سکیورٹی اہلکاروں کی ہدایت کے مطابق استعمال کریں۔</p><p><strong class="text-[#17473e]">پارکنگ:</strong> مخصوص پارکنگ جگہ کی دستیابی دن اور سکیورٹی انتظامات کے ساتھ بدل سکتی ہے؛ جلد پہنچنا بہتر ہے، سڑک کے کنارے غیر مجاز پارکنگ سے گریز کریں۔</p><p><strong class="text-[#17473e]">آرام دہ لباس:</strong> یہ قومی یادگار اور تدفین کی جگہ ہے، اس لیے باوقار لباس اور خاموش رویہ اختیار کریں۔</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="around" class="bg-[#fbfaf7] py-20 sm:py-28" aria-labelledby="around-title">
+    <div class="container-shell"><div class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><p class="eyebrow mb-4">ایک دن، کئی ذائقے</p><h2 id="around-title" class="display text-4xl font-extrabold text-[#17473e] sm:text-5xl">مزار کے بعد<br />کراچی کو محسوس کریں۔</h2></div><p class="max-w-sm text-sm leading-8 text-[#526963]">قریب کے تاریخی محلے اور کھانے کی گلیاں اس سفر کو ایک مکمل شہر شناسی میں بدل دیتے ہیں۔</p></div>
+      <div class="grid gap-5 lg:grid-cols-3">{foods.map((food, i) => <article class="group rounded-[1.6rem] border border-[#17473e]/12 bg-[#f5f3ec] p-7 transition duration-300 hover:-translate-y-1 hover:border-[#b68a4a]/60 hover:shadow-[0_18px_45px_rgba(22,43,39,.1)]"><div class="flex items-center justify-between"><span class="grid h-10 w-10 place-items-center rounded-full bg-[#17473e] text-sm font-bold text-[#e9c77a]">0{i + 1}</span><span class="text-xs font-bold text-[#b68a4a]">{food.tag}</span></div><h3 class="display mt-10 text-2xl font-extrabold text-[#17473e]">{food.name}</h3><p class="mt-3 text-sm leading-8 text-[#526963]">{food.text}</p><a href="#map" class="mt-7 inline-flex items-center gap-2 text-xs font-extrabold text-[#17473e] transition group-hover:text-[#b68a4a]">نقشے پر دیکھیں <span>←</span></a></article>)}</div>
+      <div class="mt-20 border-t border-[#17473e]/10 pt-14"><p class="eyebrow mb-4">قریب کے مقامات</p><div class="grid gap-5 md:grid-cols-3">{attractions.map((attraction, i) => <article class="relative border-r-2 border-[#b68a4a] pr-5"><p class="text-xs font-bold text-[#b68a4a]">0{i + 1} · {attraction.meta}</p><h3 class="display mt-3 text-2xl font-extrabold text-[#17473e]">{attraction.title}</h3><p class="mt-3 text-sm leading-7 text-[#526963]">{attraction.text}</p></article>)}</div></div>
+    </div>
+  </section>
+
+  <section id="map" class="bg-[#17473e] py-20 text-[#e7f0ea] sm:py-28" aria-labelledby="map-title">
+    <div class="container-shell grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-center"><div><p class="eyebrow mb-4">راستہ اور مقام</p><h2 id="map-title" class="display text-4xl font-extrabold sm:text-5xl">شہر کے بیچ<br />ایک سفید نشان</h2><p class="mt-6 text-sm leading-8 text-[#b7ccc1]">محمد علی جناح روڈ، سینٹرل جیکب لائنز، کراچی۔ جِنّاح پارک میں واقع اس مقام تک گاڑی سے پہنچا جا سکتا ہے۔ نقشہ کھول کر سفر شروع کریں۔</p><a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noreferrer" class="mt-8 inline-flex rounded-full bg-[#e9c77a] px-6 py-3 text-sm font-extrabold text-[#162b27] transition hover:bg-[#f1d58f]">Google Maps کھولیں ↗</a></div><div class="overflow-hidden rounded-[1.8rem] border-4 border-[#e9c77a]/30 bg-[#d9e6df] shadow-2xl"><iframe title="مزارِ قائد کا Google Maps نقشہ" src="https://www.google.com/maps?q=Muhammad%20Ali%20Jinnah%20Mausoleum%2C%20Karachi%2C%20Pakistan&output=embed&hl=ur&gl=pk" width="100%" height="430" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0"></iframe></div></div>
+  </section>
+
+  <section id="faq" class="bg-[#f5f3ec] py-20 sm:py-28" aria-labelledby="faq-title">
+    <div class="container-shell grid gap-12 lg:grid-cols-[.65fr_1.35fr]"><div><p class="eyebrow mb-4">سوالات</p><h2 id="faq-title" class="display text-4xl font-extrabold leading-tight text-[#17473e] sm:text-5xl">جو جاننا<br />ضروری ہے۔</h2><p class="mt-6 text-sm leading-8 text-[#526963]">مختصر جواب، تاکہ آپ کی توجہ سفر کے اصل تجربے پر رہے۔</p></div><div class="divide-y divide-[#17473e]/15 rounded-2xl border border-[#17473e]/12 bg-[#fbfaf7] px-6">{faqSchema.mainEntity.map((item) => <details class="group py-5"><summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-base font-extrabold text-[#17473e]"><span>{item.name}</span><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#e7f0ea] text-lg font-normal text-[#b68a4a] transition group-open:rotate-45">+</span></summary><p class="mt-3 max-w-2xl text-sm leading-8 text-[#526963]">{item.acceptedAnswer.text}</p></details>)}</div></div>
+  </section>
+
+  <section class="bg-[#e7f0ea] py-12" aria-label="تصاویر کے ماخذ"><div class="container-shell text-xs leading-7 text-[#526963]"><p class="font-extrabold text-[#17473e]">تصاویر اور لائسنس</p><p class="mt-2">تمام تصاویر مقامی طور پر محفوظ کی گئی Wikimedia Commons تصاویر ہیں: <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:Jinnah_Mausoleum.JPG" target="_blank" rel="noreferrer">M.irfan44 · CC BY-SA 4.0</a>، <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:Heart_of_Karachi_-_Mazar-e-Quaid.jpg" target="_blank" rel="noreferrer">Ibrahim Janjua · CC BY-SA 4.0</a>، اور <a class="underline decoration-[#b68a4a] underline-offset-4" href="https://commons.wikimedia.org/wiki/File:PK_Karachi_asv2020-02_img52_Mazar-e-Quaid.jpg" target="_blank" rel="noreferrer">A.Savin · FAL</a>۔</p></div></section>
+</BaseLayout>

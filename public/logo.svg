@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 92" role="img" aria-labelledby="title desc">
+  <title id="title">مزارِ قائد</title>
+  <desc id="desc">گنبدِ مزارِ قائد کا سبز اور سنہری نشان</desc>
+  <rect x="2" y="2" width="88" height="88" rx="44" fill="#17473e"/>
+  <path d="M20 67h52M27 65V50c0-7 6-13 13-13s13 6 13 13v15M40 37V28M34 65V52m12 13V52" fill="none" stroke="#f5f3ec" stroke-width="4" stroke-linecap="round"/>
+  <path d="M35 28c3-5 7-7 12-7-1 7-5 11-12 12" fill="none" stroke="#b68a4a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="40" cy="25" r="2.6" fill="#b68a4a"/>
+  <text x="108" y="52" fill="#f5f3ec" font-family="Noto Naskh Arabic, serif" font-size="33" font-weight="700">مزارِ قائد</text>
+  <text x="111" y="74" fill="#b68a4a" font-family="Segoe UI, sans-serif" font-size="10" letter-spacing="3">KARACHI · PAKISTAN</text>
+</svg>
