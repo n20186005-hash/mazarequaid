@@ -1,6 +1,6 @@
 # مزارِ قائد کراچی
 
-A single-page Urdu visitor guide for Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid), built with Astro, Tailwind CSS, TypeScript, and the Cloudflare Worker adapter.
+A bilingual (Urdu + English) visitor guide for Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid), built with Astro, Tailwind CSS, TypeScript, and the Cloudflare Worker adapter. Urdu is served at `/` and English at `/en/`, linked by `hreflang` (ur / en / x-default).
 
 ## Development
 

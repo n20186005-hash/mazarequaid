@@ -7,23 +7,34 @@ interface Props {
   image?: string;
   noindex?: boolean;
   canonical?: string;
+  locale?: 'ur' | 'en';
 }
 
 const {
-  title = 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Visitor Guide | مزارِ قائد',
-  description = 'Discover Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid), the iconic white-marble national mausoleum in Karachi, Sindh, Pakistan. View location map, opening hours, nearby landmarks, and travel tips.',
+  title,
+  description,
   image = '/images/mazar-exterior.jpg',
   noindex = false,
   canonical,
+  locale = 'ur',
 } = Astro.props;
 
 const site = Astro.site;
-const canonicalUrl = canonical
-  ?? (site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname);
+const urUrl = site ? new URL('/', site).toString() : '/';
+const enUrl = site ? new URL('/en/', site).toString() : '/en/';
+const canonicalUrl = canonical ?? (locale === 'en' ? enUrl : urUrl);
 const imageUrl = site ? new URL(image, site).toString() : image;
-const ogTitle = 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Travel Guide';
 
-const navItems = [
+const ogTitleUr = 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Travel Guide';
+const ogTitleEn = 'Mazar-e-Quaid (Jinnah Mausoleum) Karachi — Visiting Hours, Tickets & History';
+const ogTitle = locale === 'en' ? ogTitleEn : ogTitleUr;
+
+const htmlLang = locale === 'en' ? 'en' : 'ur';
+const htmlDir = locale === 'en' ? 'ltr' : 'rtl';
+const ogLocale = locale === 'en' ? 'en_US' : 'ur_PK';
+const ogLocaleAlt = locale === 'en' ? 'ur_PK' : 'en_US';
+
+const navUr: [string, string][] = [
   ['تعارف', '#intro'],
   ['دیکھنے کا وقت', '#visit'],
   ['اردگرد', '#around'],
@@ -31,17 +42,54 @@ const navItems = [
   ['سوالات', '#faq'],
   ['ماخذ', '#sources'],
 ];
+
+const navEn: [string, string][] = [
+  ['About', '#intro'],
+  ['Visit', '#visit'],
+  ['Around', '#around'],
+  ['Map', '#map'],
+  ['FAQ', '#faq'],
+  ['Sources', '#sources'],
+];
+
+const navItems = locale === 'en' ? navEn : navUr;
+
+const footer = {
+  ur: {
+    blurb: 'مزارِ قائد کراچی کی ایک باوقار سیر، تاریخ اور خاموشی کو سمجھنے کے لیے ایک غیر سرکاری وزٹر گائیڈ ہے۔',
+    disclaimer: 'یہ ویب سائٹ غیر سرکاری ہے۔ اوقات، سکیورٹی ہدایات، داخلہ اور سہولیات میں تبدیلی ممکن ہے؛ روانگی سے پہلے مقام کی تازہ معلومات ضرور دیکھیں۔',
+    quick: 'فوری روابط',
+    links: [['مزار کا تعارف', '#intro'], ['آمد و رفت', '#visit'], ['نقشہ دیکھیں', '#map'], ['سوالات', '#faq'], ['ماخذ', '#sources']] as [string, string][],
+    brand: 'مزارِ قائد گائیڈ · تصاویر کے ماخذ اور لائسنس نیچے درج ہیں',
+  },
+  en: {
+    blurb: 'An independent visitor guide to Mazar-e-Quaid in Karachi — a quiet place to understand the history, architecture and meaning of Pakistan’s national mausoleum.',
+    disclaimer: 'This is an unofficial guide. Opening hours, security guidance, entry and facilities may change; please verify the latest on-site information before you travel.',
+    quick: 'Quick links',
+    links: [['About the mausoleum', '#intro'], ['Plan your visit', '#visit'], ['View the map', '#map'], ['FAQ', '#faq'], ['Sources', '#sources']] as [string, string][],
+    brand: 'Mazar-e-Quaid Guide · image credits and licenses are listed below',
+  },
+}[locale];
+
+const defaultTitle = locale === 'en'
+  ? 'Mazar-e-Quaid (Jinnah Mausoleum) Karachi — Visiting Hours, Tickets & History'
+  : 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Visitor Guide | مزارِ قائد';
+
+const finalTitle = title ?? defaultTitle;
+const finalDesc = description ?? 'Official visitor guide to Mazar-e-Quaid (Muhammad Ali Jinnah Mausoleum) in Karachi, Pakistan — visiting hours, ticket price, location map and history.';
+const siteName = locale === 'en' ? 'Mazar-e-Quaid Guide' : 'مزارِ قائد — Mazar-e-Quaid Guide';
 ---
+
 <!doctype html>
-<html lang="ur" dir="rtl">
+<html lang={htmlLang} dir={htmlDir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#17473e" />
     <meta name="color-scheme" content="light" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="keywords" content="Muhammad Ali Jinnah Mausoleum, Mazar-e-Quaid, Jinnah Mausoleum Karachi, مزارِ قائد, National Mausoleum Pakistan, Karachi landmarks, Sindh tourism, Jinnah Park, مزار قائد کراچی, کراچی کے سیاحتی مقامات" />
+    <title>{finalTitle}</title>
+    <meta name="description" content={finalDesc} />
+    <meta name="keywords" content="Muhammad Ali Jinnah Mausoleum, Mazar-e-Quaid, Jinnah Mausoleum Karachi, Mazar e Quaid, Quaid e Azam Mazar, Quaid e Azam tomb, مزارِ قائد, National Mausoleum Pakistan, Karachi landmarks, Sindh tourism, Jinnah Park" />
     <meta name="author" content="Mazar-e-Quaid Visitor Guide" />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
     <meta name="rating" content="general" />
@@ -56,9 +104,9 @@ const navItems = [
     <link rel="apple-touch-icon" href="/favicon-180.png" sizes="180x180" />
     <link rel="mask-icon" href="/favicon.svg" color="#17473e" />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="ur" href={canonicalUrl} />
-    <link rel="alternate" hreflang="en" href={canonicalUrl} />
-    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link rel="alternate" hreflang="ur" href={urUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={urUrl} />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="application-name" content="Mazar-e-Quaid Guide" />
     <meta name="apple-mobile-web-app-title" content="Mazar-e-Quaid" />
@@ -66,13 +114,13 @@ const navItems = [
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
-    <meta property="og:locale" content="ur_PK" />
-    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={finalDesc} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="مزارِ قائد — Mazar-e-Quaid Guide" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
     <meta property="og:image:type" content="image/jpeg" />
@@ -82,7 +130,7 @@ const navItems = [
     <meta property="og:updated_time" content="2026-09-15T00:00:00Z" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={finalDesc} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) in Karachi" />
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
@@ -96,13 +144,13 @@ const navItems = [
   <body>
     <header class="absolute inset-x-0 top-0 z-20 text-white">
       <div class="container-shell flex items-center justify-between gap-6 py-5">
-        <a href="#top" class="group flex items-center gap-3" aria-label="مزارِ قائد، آغاز صفحہ">
-          <img src="/logo.svg" width="180" height="46" alt="مزارِ قائد" class="h-auto w-[150px] transition duration-300 group-hover:opacity-80 sm:w-[180px]" />
+        <a href="#top" class="group flex items-center gap-3" aria-label={locale === 'en' ? 'Mazar-e-Quaid, home' : 'مزارِ قائد، آغاز صفحہ'}>
+          <img src="/logo.svg" width="180" height="46" alt={locale === 'en' ? 'Mazar-e-Quaid' : 'مزارِ قائد'} class="h-auto w-[150px] transition duration-300 group-hover:opacity-80 sm:w-[180px]" />
         </a>
-        <nav aria-label="مرکزی نیویگیشن" class="hidden items-center gap-6 text-[13px] font-bold lg:flex">
+        <nav aria-label={locale === 'en' ? 'Main navigation' : 'مرکزی نیویگیشن'} class="hidden items-center gap-6 text-[13px] font-bold lg:flex">
           {navItems.map(([label, href]) => <a class="opacity-85 transition hover:text-[#e9c77a] hover:opacity-100" href={href}>{label}</a>)}
         </nav>
-        <a href="#visit" class="rounded-full border border-white/45 px-4 py-2 text-xs font-bold transition hover:border-[#e9c77a] hover:bg-[#e9c77a] hover:text-[#162b27]">اپنے سفر کی تیاری</a>
+        <a href="#visit" class="rounded-full border border-white/45 px-4 py-2 text-xs font-bold transition hover:border-[#e9c77a] hover:bg-[#e9c77a] hover:text-[#162b27]">{locale === 'en' ? 'Plan your visit' : 'اپنے سفر کی تیاری'}</a>
       </div>
     </header>
     <main id="top">
@@ -111,22 +159,18 @@ const navItems = [
     <footer class="border-t border-white/10 bg-[#0d201d] text-[#e7f0ea]">
       <div class="container-shell grid gap-10 py-14 md:grid-cols-[1fr_auto] md:items-start">
         <div>
-          <img src="/logo.svg" width="180" height="46" alt="مزارِ قائد" class="mb-5 h-auto w-[180px]" />
-          <p class="max-w-xl text-sm leading-8 text-[#c5d5cc]">مزارِ قائد کراچی کی ایک باوقار سیر، تاریخ اور خاموشی کو سمجھنے کے لیے ایک غیر سرکاری وزٹر گائیڈ ہے۔</p>
-          <p class="mt-6 max-w-xl text-xs leading-7 text-[#8ca99b]">یہ ویب سائٹ غیر سرکاری ہے۔ اوقات، سکیورٹی ہدایات، داخلہ اور سہولیات میں تبدیلی ممکن ہے؛ روانگی سے پہلے مقام کی تازہ معلومات ضرور دیکھیں۔</p>
+          <img src="/logo.svg" width="180" height="46" alt={locale === 'en' ? 'Mazar-e-Quaid' : 'مزارِ قائد'} class="mb-5 h-auto w-[180px]" />
+          <p class="max-w-xl text-sm leading-8 text-[#c5d5cc]">{footer.blurb}</p>
+          <p class="mt-6 max-w-xl text-xs leading-7 text-[#8ca99b]">{footer.disclaimer}</p>
         </div>
         <div class="text-sm text-[#c5d5cc] md:text-left">
-          <p class="mb-3 font-bold text-[#e9c77a]">فوری روابط</p>
+          <p class="mb-3 font-bold text-[#e9c77a]">{footer.quick}</p>
           <div class="flex flex-col gap-2">
-            <a class="transition hover:text-white" href="#intro">مزار کا تعارف</a>
-            <a class="transition hover:text-white" href="#visit">آمد و رفت</a>
-            <a class="transition hover:text-white" href="#map">نقشہ دیکھیں</a>
-            <a class="transition hover:text-white" href="#faq">سوالات</a>
-            <a class="transition hover:text-white" href="#sources">ماخذ</a>
+            {footer.links.map(([label, href]) => <a class="transition hover:text-white" href={href}>{label}</a>)}
           </div>
         </div>
       </div>
-      <div class="border-t border-white/10 py-5 text-center text-[11px] text-[#8ca99b]">© مزارِ قائد گائیڈ · تصاویر کے ماخذ اور لائسنس نیچے درج ہیں</div>
+      <div class="border-t border-white/10 py-5 text-center text-[11px] text-[#8ca99b]">© {footer.brand}</div>
     </footer>
     <script is:inline>
       if ('serviceWorker' in navigator) {

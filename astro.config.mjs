@@ -7,9 +7,11 @@ const siteUrl = process.env.PUBLIC_SITE_URL?.trim() || undefined;
 
 export default defineConfig({
   site: siteUrl,
-  output: 'static',
+  output: 'server',
   adapter: cloudflare(),
-  integrations: siteUrl ? [sitemap()] : [],
+  integrations: siteUrl
+    ? [sitemap({ i18n: { defaultLocale: 'ur', locales: { ur: 'ur-PK', en: 'en' } } })]
+    : [],
   vite: {
     plugins: [tailwindcss()],
     server: {

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, hoursUr } from '../data/site';
 
 const site = Astro.site;
 const canonicalUrl = site ? new URL(Astro.url.pathname, site).toString() : Astro.url.pathname;
@@ -23,39 +24,31 @@ const attractionSchema = {
   description: 'Comprehensive visitor guide to Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid), the iconic white-marble national mausoleum in Karachi, Sindh, Pakistan — final resting place of the founder of Pakistan.',
   url: canonicalUrl,
   image: [heroImageUrl, cityImageUrl, detailImageUrl],
-  isAccessibleForFree: true,
+  isAccessibleForFree: SITE.isAccessibleForFree,
   publicAccess: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Muhammad Ali Jinnah Road, Central Jacob Lines',
-    addressLocality: 'Karachi',
-    addressRegion: 'Sindh',
-    addressCountry: 'PK',
+    streetAddress: SITE.address.streetAddress,
+    addressLocality: SITE.address.addressLocality,
+    addressRegion: SITE.address.addressRegion,
+    addressCountry: SITE.address.addressCountry,
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 24.875354,
-    longitude: 67.040835,
+    latitude: SITE.geo.latitude,
+    longitude: SITE.geo.longitude,
   },
-  hasMap: 'https://maps.app.goo.gl/hnCrj26Z2LjHTYx28',
-  telephone: '+923102448409',
-  openingHoursSpecification: [
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Friday', 'Saturday', 'Sunday'], opens: '14:00', closes: '17:30' },
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '10:00', closes: '17:30' },
-  ],
+  hasMap: SITE.mapsUrl,
+  telephone: SITE.phone,
+  openingHoursSpecification: SITE.openingHoursSpecification,
   aggregateRating: {
     '@type': 'AggregateRating',
-    ratingValue: '4.6',
-    reviewCount: '14963',
+    ratingValue: SITE.ratingValue,
+    reviewCount: SITE.reviewCount,
     bestRating: '5',
     worstRating: '1',
   },
-  sameAs: [
-    'https://maps.app.goo.gl/hnCrj26Z2LjHTYx28',
-    'https://www.google.com/maps/place/Mazar-e-Quaid/',
-    'https://www.tourism.gov.pk/',
-    'https://www.facebook.com/MazarEQuaidOfficial',
-  ],
+  sameAs: SITE.sameAs,
   containedInPlace: {
     '@type': 'Park',
     name: 'Jinnah Park (Mazar-e-Quaid Complex)',
@@ -94,15 +87,7 @@ const faqSchema = {
   ],
 };
 
-const hours = [
-  ['پیر', 'دوپہر ۲ تا شام ۵:۳۰'],
-  ['منگل', 'دوپہر ۲ تا شام ۵:۳۰'],
-  ['بدھ', 'صبح ۱۰ تا شام ۵:۳۰'],
-  ['جمعرات', 'صبح ۱۰ تا شام ۵:۳۰'],
-  ['جمعہ', 'دوپہر ۲ تا شام ۵:۳۰'],
-  ['ہفتہ', 'دوپہر ۲ تا شام ۵:۳۰'],
-  ['اتوار', 'دوپہر ۲ تا شام ۵:۳۰'],
-];
+const hours = hoursUr;
 
 const attractions = [
   { title: 'فریئر ہال', meta: 'نوآبادیاتی ورثہ · باغ', text: 'سیدھی لکیروں اور محرابی تفصیل سے بھرپور تاریخی عمارت، شہر کے ایک مختلف مزاج کو محسوس کرنے کے لیے۔' },
@@ -205,7 +190,7 @@ const sourceItems = [
         <div class="grid gap-4 sm:grid-cols-2">
           <article class="rounded-2xl bg-[#17473e] p-6 text-[#e7f0ea]">
             <p class="text-xs font-bold tracking-[.15em] text-[#e9c77a]">درجہ بندی</p>
-            <p class="mt-3 text-4xl font-extrabold">۴.۶ <span class="text-lg text-[#e9c77a]">★</span> <span class="text-base font-bold text-[#e7f0ea]/85">(۱۴٬۹۶۳)</span></p>
+            <p class="mt-3 text-4xl font-extrabold">۴.۶ <span class="text-lg text-[#e9c77a]">★</span> <span class="text-base font-bold text-[#e7f0ea]/85">(۱۵٬۰۰۹)</span></p>
             <p class="mt-2 text-xs text-[#b7ccc1]">Google Maps پر عوامی ریٹنگ</p>
             <p class="mt-3 text-[10px] leading-5 text-[#9fbab0]">درجہ بندی اور تبصروں کی تعداد گوگل میپس (Google Maps) کے صارف تبصروں سے · ستمبر 2026 · <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="underline decoration-[#e9c77a]/60 underline-offset-2 hover:text-[#e9c77a]">گوگل میپس پر تمام تبصرے دیکھیں ↗</a></p>
           </article>
@@ -232,7 +217,7 @@ const sourceItems = [
       </div>
       <div class="mb-8 rounded-2xl border border-[#b68a4a]/35 bg-[#f5f3ec] p-5 text-xs leading-6 text-[#526963]">
         <p class="font-extrabold text-[#17473e]">درجہ بندی اور تبصرے Google Maps کے صارف تبصروں سے لیے گئے، ستمبر 2026 تک درست؛ جملہ حقوق ناشرین اور Google Maps کے محفوظ ہیں</p>
-        <p class="mt-1">تبصرے صرف اسی صفحے پر پیش کیے گئے ہیں اور متن میں کوئی تبدیلی نہیں کی گئی؛ مکمل ۱۴٬۹۶۳ صارف تبصروں اور تازہ معلومات کے لیے صفحے کے اوپر موجود بٹن دبائیں یا <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">Google Maps ↗</a> پر دیکھیں۔</p>
+        <p class="mt-1">تبصرے صرف اسی صفحے پر پیش کیے گئے ہیں اور متن میں کوئی تبدیلی نہیں کی گئی؛ مکمل ۱۵٬۰۰۹ صارف تبصروں اور تازہ معلومات کے لیے صفحے کے اوپر موجود بٹن دبائیں یا <a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">Google Maps ↗</a> پر دیکھیں۔</p>
       </div>
       <div class="grid gap-5 md:grid-cols-3">
         <article class="rounded-2xl border border-[#17473e]/12 bg-[#f5f3ec] p-6"><div class="flex items-center gap-2 text-[#b68a4a] text-sm font-extrabold">★★★★★</div><p class="mt-4 text-sm leading-7 text-[#526963]">“بہت خوبصورت اور پُرسکون جگہ۔ کراچی کے مصروف شہر میں ایک عمدہ پناہ گاہ، فوارے اور گنبد دیکھنے کے قابل۔”</p><p class="mt-4 text-xs text-[#7d8f86]">— Google Maps صارف</p></article>
@@ -269,7 +254,7 @@ const sourceItems = [
       <div class="mb-8 grid gap-4 sm:grid-cols-2">
         <div class="rounded-2xl border border-[#17473e]/12 bg-[#fbfaf7] p-5 text-xs leading-6 text-[#526963]">
           <p class="font-extrabold text-[#17473e]">درجہ بندی اور تبصروں کی تعداد</p>
-          <p class="mt-1">درجہ بندی <span class="font-bold text-[#17473e]">۴.۶ ★</span> · تبصرے <span class="font-bold text-[#17473e]">۱۴٬۹۶۳</span> · ستمبر 2026 تک درست</p>
+          <p class="mt-1">درجہ بندی <span class="font-bold text-[#17473e]">۴.۶ ★</span> · تبصرے <span class="font-bold text-[#17473e]">۱۵٬۰۰۹</span> · ستمبر 2026 تک درست</p>
           <p class="mt-1">درجہ بندی اور تبصرے Google Maps کے صارف تبصروں سے لیے گئے، ستمبر 2026 تک درست؛ جملہ حقوق ناشرین اور Google Maps کے محفوظ ہیں</p>
           <p class="mt-2"><a href="https://maps.app.goo.gl/hnCrj26Z2LjHTYx28" target="_blank" rel="noopener noreferrer" class="font-bold text-[#17473e] underline decoration-[#b68a4a] underline-offset-2">گوگل میپس پر تمام تبصرے دیکھیں ↗</a></p>
         </div>
