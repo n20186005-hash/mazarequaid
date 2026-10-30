@@ -1,0 +1,6 @@
+---
+import '../styles/global.css';
+const {locale='ur'}=Astro.props;
+const en=locale==='en';
+---
+<html lang={en?'en':'ur'} dir={en?'ltr':'rtl'}><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="robots" content="noindex,nofollow"/><title>{en?'Page not found | Mazar-e-Quaid Guide':'صفحہ نہیں ملا | مزارِ قائد رہنما'}</title></head><body><main class="container-shell max-w-3xl py-16"><p>Error 404</p><h1 class="mt-6 text-3xl font-bold">{en?'Page not found':'صفحہ نہیں ملا'}</h1><a class="mt-6 inline-block underline" href={en?'/en/':'/'}>{en?'Return to the guide':'رہنما پر واپس جائیں'}</a><p class="mt-8 leading-9">{en?'Independent nonprofit tourism and cultural information guide. This error page loads no Google Analytics or map. Cloudflare may process technical connection, security and performance data while hosting it.':'آزاد غیر منافع بخش سیاحتی اور ثقافتی معلوماتی رہنما۔ اس غلطی کے صفحے پر Google Analytics یا نقشہ لوڈ نہیں ہوتا۔ میزبانی کے دوران Cloudflare تکنیکی کنکشن، حفاظت اور کارکردگی کا ڈیٹا پراسیس کر سکتا ہے۔'}</p><a class="underline" href={en?'/en/#sources':'/#sources'}>{en?'Privacy and sources':'رازداری اور ماخذ'}</a></main></body></html>

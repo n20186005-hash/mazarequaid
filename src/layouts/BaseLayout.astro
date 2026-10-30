@@ -13,13 +13,13 @@ interface Props {
 const {
   title,
   description,
-  image = '/images/mazar-exterior.jpg',
+  image = '/images/social-guide.svg',
   noindex = false,
   canonical,
   locale = 'ur',
 } = Astro.props;
 
-const site = Astro.site;
+const site = Astro.site ?? new URL('https://mazarequaid.com');
 const urUrl = site ? new URL('/', site).toString() : '/';
 const enUrl = site ? new URL('/en/', site).toString() : '/en/';
 const canonicalUrl = canonical ?? (locale === 'en' ? enUrl : urUrl);
@@ -27,7 +27,7 @@ const imageUrl = site ? new URL(image, site).toString() : image;
 
 const ogTitleUr = 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Travel Guide';
 const ogTitleEn = 'Mazar-e-Quaid (Jinnah Mausoleum) Karachi — Visiting Hours, Tickets & History';
-const ogTitle = locale === 'en' ? ogTitleEn : ogTitleUr;
+const ogTitle = title ?? (locale === 'en' ? ogTitleEn : ogTitleUr);
 
 const htmlLang = locale === 'en' ? 'en' : 'ur';
 const htmlDir = locale === 'en' ? 'ltr' : 'rtl';
@@ -56,18 +56,18 @@ const navItems = locale === 'en' ? navEn : navUr;
 
 const footer = {
   ur: {
-    blurb: 'مزارِ قائد کراچی کی ایک باوقار سیر، تاریخ اور خاموشی کو سمجھنے کے لیے ایک غیر سرکاری وزٹر گائیڈ ہے۔',
+    blurb: 'یہ غیر منافع بخش سیاحتی اور ثقافتی معلوماتی رہنما مزارِ قائد کراچی کی ایک باوقار سیر، تاریخ اور خاموشی کو سمجھنے کے لیے ایک غیر سرکاری وزٹر گائیڈ ہے۔',
     disclaimer: 'یہ ویب سائٹ غیر سرکاری ہے۔ اوقات، سکیورٹی ہدایات، داخلہ اور سہولیات میں تبدیلی ممکن ہے؛ روانگی سے پہلے مقام کی تازہ معلومات ضرور دیکھیں۔',
     quick: 'فوری روابط',
     links: [['مزار کا تعارف', '#intro'], ['آمد و رفت', '#visit'], ['نقشہ دیکھیں', '#map'], ['سوالات', '#faq'], ['ماخذ', '#sources']] as [string, string][],
-    brand: 'مزارِ قائد گائیڈ · تصاویر کے ماخذ اور لائسنس نیچے درج ہیں',
+    brand: 'مزارِ قائد گائیڈ · تصویر کے ساتھ ماخذ اور لائسنس درج ہیں',
   },
   en: {
-    blurb: 'An independent visitor guide to Mazar-e-Quaid in Karachi — a quiet place to understand the history, architecture and meaning of Pakistan’s national mausoleum.',
+    blurb: 'An independent, nonprofit tourism and cultural information guide to Mazar-e-Quaid in Karachi — a quiet place to understand the history, architecture and meaning of Pakistan’s national mausoleum.',
     disclaimer: 'This is an unofficial guide. Opening hours, security guidance, entry and facilities may change; please verify the latest on-site information before you travel.',
     quick: 'Quick links',
     links: [['About the mausoleum', '#intro'], ['Plan your visit', '#visit'], ['View the map', '#map'], ['FAQ', '#faq'], ['Sources', '#sources']] as [string, string][],
-    brand: 'Mazar-e-Quaid Guide · image credits and licenses are listed below',
+    brand: 'Mazar-e-Quaid Guide · image credits and licences appear beside the photograph',
   },
 }[locale];
 
@@ -76,7 +76,7 @@ const defaultTitle = locale === 'en'
   : 'Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — Karachi Visitor Guide | مزارِ قائد';
 
 const finalTitle = title ?? defaultTitle;
-const finalDesc = description ?? 'Official visitor guide to Mazar-e-Quaid (Muhammad Ali Jinnah Mausoleum) in Karachi, Pakistan — visiting hours, ticket price, location map and history.';
+const finalDesc = description ?? 'Independent visitor guide to Mazar-e-Quaid in Karachi. Confirm public access, hours and charges with QMMB before travel.';
 const siteName = locale === 'en' ? 'Mazar-e-Quaid Guide' : 'مزارِ قائد — Mazar-e-Quaid Guide';
 ---
 
@@ -89,14 +89,13 @@ const siteName = locale === 'en' ? 'Mazar-e-Quaid Guide' : 'مزارِ قائد 
     <meta name="color-scheme" content="light" />
     <title>{finalTitle}</title>
     <meta name="description" content={finalDesc} />
-    <meta name="keywords" content="Muhammad Ali Jinnah Mausoleum, Mazar-e-Quaid, Jinnah Mausoleum Karachi, Mazar e Quaid, Quaid e Azam Mazar, Quaid e Azam tomb, مزارِ قائد, National Mausoleum Pakistan, Karachi landmarks, Sindh tourism, Jinnah Park" />
     <meta name="author" content="Mazar-e-Quaid Visitor Guide" />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
     <meta name="rating" content="general" />
     <meta name="geo.region" content="PK-SD" />
     <meta name="geo.placename" content="Karachi, Sindh, Pakistan" />
-    <meta name="geo.position" content="24.875354;67.040835" />
-    <meta name="ICBM" content="24.875354, 67.040835" />
+    <meta name="geo.position" content="24.8753868;67.0409721" />
+    <meta name="ICBM" content="24.8753868, 67.0409721" />
     <meta name="language" content="Urdu, English" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
@@ -123,33 +122,35 @@ const siteName = locale === 'en' ? 'Mazar-e-Quaid Guide' : 'مزارِ قائد 
     <meta property="og:site_name" content={siteName} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:image:secure_url" content={imageUrl} />
-    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:type" content="image/svg+xml" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) — main view in Karachi, Pakistan" />
-    <meta property="og:updated_time" content="2026-09-15T00:00:00Z" />
+    <meta property="og:image:alt" content="Typographic Mazar-e-Quaid guide card; not a photograph" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={finalDesc} />
     <meta name="twitter:image" content={imageUrl} />
-    <meta name="twitter:image:alt" content="Muhammad Ali Jinnah Mausoleum (Mazar-e-Quaid) in Karachi" />
+    <meta name="twitter:image:alt" content="Mazar-e-Quaid guide card; not a photograph" />
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
     <script is:inline define:vars={{ canonicalUrl }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      const analyticsWindow = Function('return this')();
+      analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+      function gtag(){analyticsWindow.dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-HXM22WWPKP', { page_location: canonicalUrl });
     </script>
   </head>
   <body>
-    <header class="absolute inset-x-0 top-0 z-20 text-white">
-      <div class="container-shell flex items-center justify-between gap-6 py-5">
+    <header class="relative z-20 bg-[#0d201d] text-white">
+      <div class="container-shell flex items-center justify-between flex-wrap gap-4 py-5">
         <a href="#top" class="group flex items-center gap-3" aria-label={locale === 'en' ? 'Mazar-e-Quaid, home' : 'مزارِ قائد، آغاز صفحہ'}>
           <img src="/logo.svg" width="180" height="46" alt={locale === 'en' ? 'Mazar-e-Quaid' : 'مزارِ قائد'} class="h-auto w-[150px] transition duration-300 group-hover:opacity-80 sm:w-[180px]" />
         </a>
-        <nav aria-label={locale === 'en' ? 'Main navigation' : 'مرکزی نیویگیشن'} class="hidden items-center gap-6 text-[13px] font-bold lg:flex">
+        <nav aria-label={locale === 'en' ? 'Main navigation' : 'مرکزی نیویگیشن'} class="hidden items-center gap-4 text-[13px] font-bold lg:flex">
           {navItems.map(([label, href]) => <a class="opacity-85 transition hover:text-[#e9c77a] hover:opacity-100" href={href}>{label}</a>)}
         </nav>
+        <details class="mobile-menu lg:hidden"><summary>{locale==='en'?'Menu':'فہرست'}</summary><nav aria-label={locale==='en'?'Mobile navigation':'موبائل فہرست'}>{navItems.map(([label,href])=><a href={href}>{label}</a>)}<a href={locale==='en'?'/':'/en/'} lang={locale==='en'?'ur':'en'}>{locale==='en'?'اردو':'English'}</a></nav></details>
+        <a href={locale==='en'?'/':'/en/'} class="hidden text-sm underline lg:inline-block" lang={locale==='en'?'ur':'en'}>{locale==='en'?'اردو':'English'}</a>
         <a href="#visit" class="rounded-full border border-white/45 px-4 py-2 text-xs font-bold transition hover:border-[#e9c77a] hover:bg-[#e9c77a] hover:text-[#162b27]">{locale === 'en' ? 'Plan your visit' : 'اپنے سفر کی تیاری'}</a>
       </div>
     </header>
@@ -173,11 +174,7 @@ const siteName = locale === 'en' ? 'Mazar-e-Quaid Guide' : 'مزارِ قائد 
       <div class="border-t border-white/10 py-5 text-center text-[11px] text-[#8ca99b]">© {footer.brand}</div>
     </footer>
     <script is:inline>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
-        });
-      }
+      if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>{if(r.scope===new URL('/',location.href).href)r.unregister()})).catch(()=>{});
     </script>
   </body>
 </html>

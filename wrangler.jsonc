@@ -1,11 +1,14 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "mazar-e-quaid",
-  "main": "@astrojs/cloudflare/entrypoints/server",
+  "name": "mazarequaid",
+  "main": "src/worker.js",
   "compatibility_date": "2026-09-15",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "assets": {
     "binding": "ASSETS",
-    "directory": "./dist/client"
+    "directory": "./dist/client",
+    "run_worker_first": true
   }
 }
